@@ -1,7 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using Shace.Storage;
+using Shace.Storage.Entities;
+
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Add DB Context
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+services.AddDbContext<AccountContext>(options => options.UseSqlServer(connectionString));
+
+
 
 var app = builder.Build();
 
