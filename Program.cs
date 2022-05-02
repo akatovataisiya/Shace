@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Shace.Logic.Accounts;
 using Shace.Storage;
 using Shace.Storage.Entities;
 
@@ -7,6 +8,7 @@ var services = builder.Services;
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IAccountManager, AccountManager>();
 
 //Add DB Context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -33,6 +35,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();
