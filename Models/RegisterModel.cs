@@ -7,12 +7,12 @@
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Не указан никнейм")]
-        [StringLength(20, MinimumLength = 6, ErrorMessage = "Длина имени должна быть от {2} до {1} символов")]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "Никнейм должен быть от {2} до {1} символов")]
         public string ShortName { get; set; }
 
         [Required(ErrorMessage = "Не указан пароль")]
         [DataType(DataType.Password)]
-        [StringLength(32, MinimumLength = 8, ErrorMessage = "Длина строки должна быть от {2} до {1} символов")]
+        [StringLength(32, MinimumLength = 8, ErrorMessage = "Пароль должен быть от {2} до {1} символов")]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Не указан подтверждающий пароль")]
