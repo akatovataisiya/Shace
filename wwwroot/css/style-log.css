@@ -1,0 +1,80 @@
+﻿/*Авторизация*/
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #eef4fd;
+}
+
+.Login {
+    width: 400px;
+    padding: 40px;
+    text-decoration-color: rgba(250, 250, 250, 1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: white; /* рамочка*/
+    text-align: center;
+    border-radius: 0px;
+    outline: 1px solid lightgray;
+}
+
+    .Login input[type="text"], .Login input[type="password"] {
+        border: 0;
+        background: #f7f7f7; /*цвет кнопки*/
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        border: 1px solid white; /*обводка кнокоп*/
+        padding: 10px 5px; /*ширина и высота кнопки*/
+        width: 200px;
+        outline: none;
+        color: black;
+        border-radius: 0px; /* shape button*/
+        transition: 0.25s;
+        text-decoration-color: white;
+    }
+
+    .Login h1 {
+        color: black;
+        text-align: center;
+        font-weight: 300;
+    }
+
+       .Login input[type="submit"] { /*vhod*/
+        border: 0;
+        background: #3d9bff;
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        border: 2px solid white;
+        padding: 10px 5px;
+        width: 200px;
+        outline: lightgray;
+        color: black;
+        border-radius: 24px;
+        transition: 0.25s;
+        text-decoration-color: black;
+    }
+
+.Registr {
+    color: black;
+    font-size: 14px;
+    text-decoration: none;
+    text-decoration-color: black;
+}
+
+    .Registr:hover {
+        color: black;
+        text-decoration-color: black;
+    }
+
+
+.Login input[type="submit"]:hover { /*selection vhod*/
+    background: #3d9bff;
+    color: white;
+    text-decoration-color: white;
+}
+/*Авторизация\*/
