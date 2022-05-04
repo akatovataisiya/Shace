@@ -43,12 +43,7 @@ body {
         font-weight: 300;
     }
 
-    /*.Login input[type="text"]:focus, .Login input[type="password"]:focus {
-        width: 280px;
-        border-color: lightgray;*/ /*подцветка значка*/
-    /*}*/
-
-    .Login input[type="submit"] { /*vhod*/
+       .Login input[type="submit"] { /*vhod*/
         border: 0;
         background: #3d9bff;
         display: block;
