@@ -41,12 +41,6 @@ body {
         text-align: center;
         font-weight: 300;
     }
-
-    /*.Register input[type="text"]:focus, .Register input[type="password"]:focus, .Register input[type="password"]:focus {
-        width: 290px;
-        border-color: #FFE8C5;
-    }*/
-
     .Register input[type="submit"] {
         border: 0;
         background: #3d9bff;
