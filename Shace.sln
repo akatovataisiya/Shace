@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shace", "Shace.csproj", "{48AA7CA2-C81C-4DFA-A54E-33E16C63EE0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shace", "Shace.csproj", "{48AA7CA2-C81C-4DFA-A54E-33E16C63EE0E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shace.Storage", "Shace.Storage\Shace.Storage.csproj", "{5C3670FB-33D2-44D6-9AE3-69C2A10646BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shace.Logic", "Shace.Logic\Shace.Logic.csproj", "{6CC1E0FF-21CF-43C4-9813-B363BB247F6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{48AA7CA2-C81C-4DFA-A54E-33E16C63EE0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48AA7CA2-C81C-4DFA-A54E-33E16C63EE0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48AA7CA2-C81C-4DFA-A54E-33E16C63EE0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C3670FB-33D2-44D6-9AE3-69C2A10646BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C3670FB-33D2-44D6-9AE3-69C2A10646BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C3670FB-33D2-44D6-9AE3-69C2A10646BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C3670FB-33D2-44D6-9AE3-69C2A10646BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CC1E0FF-21CF-43C4-9813-B363BB247F6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CC1E0FF-21CF-43C4-9813-B363BB247F6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CC1E0FF-21CF-43C4-9813-B363BB247F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CC1E0FF-21CF-43C4-9813-B363BB247F6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
