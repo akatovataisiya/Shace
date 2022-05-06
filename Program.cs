@@ -2,19 +2,24 @@ using Microsoft.EntityFrameworkCore;
 using Shace.Logic.Accounts;
 using Shace.Storage;
 using Shace.Storage.Entities;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IAccountManager, AccountManager>();
+services.AddControllersWithViews();
+services.AddScoped<IAccountManager, AccountManager>();
 
 //Add DB Context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 services.AddDbContext<AccountContext>(options => options.UseSqlServer(connectionString));
 
-
+services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => //CookieAuthenticationOptions
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                });
 
 var app = builder.Build();
 
@@ -31,10 +36,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseAuthentication();    // аутентификация
+app.UseAuthorization();     // авторизация
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
