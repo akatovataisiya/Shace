@@ -67,7 +67,7 @@ namespace Shace.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public Task Create([FromBody] RegisterModel registerModel) => _manager.Create(registerModel.Email, registerModel.ShortName, registerModel.Password);
+        public Task<bool> Create([FromBody] RegisterModel registerModel) => _manager.Create(registerModel.Email, registerModel.ShortName, registerModel.Password);
 
 
         private async Task Authenticate(string email)
