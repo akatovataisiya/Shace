@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Shace.Logic.Accounts;
+using Shace.Logic.Posts;
 using Shace.Storage;
 using Shace.Storage.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -10,6 +11,7 @@ var services = builder.Services;
 // Add services to the container.
 services.AddControllersWithViews();
 services.AddScoped<IAccountManager, AccountManager>();
+services.AddScoped<IPostManager, PostManager>();
 
 //Add DB Context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -36,8 +38,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();    // аутентификация
-app.UseAuthorization();     // авторизация
+app.UseAuthentication();    // Г ГіГІГҐГ­ГІГЁГґГЁГЄГ Г¶ГЁГї
+app.UseAuthorization();     // Г ГўГІГ®Г°ГЁГ§Г Г¶ГЁГї
 
 app.MapControllerRoute(
     name: "default",

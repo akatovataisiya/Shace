@@ -1,8 +1,51 @@
-﻿@{
+﻿@model IEnumerable<Shace.Storage.Entities.Post>
+
+@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<head>
+    <meta charset="utf-8">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/style-index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0px;
+            height: 1290px;
+            background-position: center;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+<div style="margin-top:350px">
+        <div>
+            @foreach (var item in Model.Reverse())
+            {
+                //if (item.AccountId != ViewBag.Account.Id) //Включено отображение своих публикаций
+                {
+                    <br><br> <br>
+                    <div class="Hello">
+                        @foreach (var name in @ViewBag.AllAccs)
+                        {
+                            if (item.AccountId == name.Id)
+                            {
+                                <img style="float:left; margin-left:10px" src="@Url.Content("~/images/"+@name.Photo)" width="40" height="40">
+                                <a style="margin-top:7px; margin-left:3px; float:left">@Html.Raw(name.ShortName)</a>
+                                <br><br><br>
+                                break;
+                            }
+                        }
+                        
+                        <p><img width="600" height="600" src="@Url.Content("~/images/"+item.Photo)"></p>
+                        <p style="margin-top:10px; float:left; margin-left:10px">@Html.Raw(item.Description)</p><br>
+                        <p style="margin-top:30px; float:right">@Html.Raw(item.PostDate)</p><br>
+                    </div>
+                }
+            }
+        </div>
 </div>
+</body>

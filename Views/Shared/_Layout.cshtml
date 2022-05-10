@@ -12,18 +12,35 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shace</a>
+                <a style="font-family: 'Pacifico', cursive; color: black;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shace</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <div style="justify-content:right;" class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul style="justify-content:right" class="navbar-nav flex-grow-1">
+                        <li class="nav-item" style="margin-top:5px">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/home.png" width="20" height="20" alt="Index"></a>
+                        </li>
+                        <li class="nav-item" style="margin-top:5px">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Chat"><img src="~/images/chat.png" width="20" height="20" alt="Chat"></a>
+                        </li>
+                        <li class="nav-item" style="margin-top:5px">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Create"><img src="~/images/add.png" width="20" height="20" alt="Add"></a>
+                        </li>
+
+                        <li class="nav-item" style="margin-top:5px">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Like"><img src="~/images/like.png" width="20" height="20" alt="Like"></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <details class="details-overlay details-reset js-feature-preview-indicator-container" open>
+                                <summary class="nav-link text-dark"><img style="margin-right:3px" src="@Url.Content("~/images/"+@ViewBag.Account.Photo)" width="40" height="40">@ViewBag.Account.ShortName</summary>
+                                @*<details-menu>
+                                    <br><a style="border:1px solid black; width:141px" class="btn" asp-area="" asp-controller="Home" asp-action="MyAcc">Мой профиль</a>
+                                    <br><a style="border:1px solid black; width:141px" class="btn" asp-area="" asp-controller="Home" asp-action="Settings">Настройки</a>
+                                    <br><a style="border:1px solid black; width:141px" class="btn" asp-area="" asp-controller="Account" asp-action="Logout">Выйти из аккаунта</a>
+                                </details-menu>*@
+                            </details>
                         </li>
                     </ul>
                 </div>
@@ -31,16 +48,16 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    @*<footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2022 - Shace - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
