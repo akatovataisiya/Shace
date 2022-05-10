@@ -8,7 +8,6 @@ namespace Shace.Logic.Posts
 {
     internal interface IPostManager
     {
-        public Task<bool> AddPost();
         public Task<bool> UpdatePost();
         public Task<bool> DeletePost();
         public Task<bool> DeleteAllPost();
