@@ -38,6 +38,7 @@ namespace Shace.Logic.Accounts
             if (accountInDb == null)
             {
                 var account = new Account();
+                account.Photo = "prof.png";
                 account.Email = email;
                 account.ShortName = shortName;
                 account.Password = password;
