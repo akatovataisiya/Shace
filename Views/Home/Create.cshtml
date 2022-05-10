@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+
+<style>
+    .btnclass{
+        border: 0;
+        background: #f7f7f7;
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        border: 1px solid white;
+        padding: 10px 5px;
+        width: 200px;
+        outline: none;
+        color: black;
+        border-radius: 0px;
+        transition: 0.25s;
+        text-decoration-color: white;
+    }
+</style>
+
+ <form asp-action="Create" asp-controller="Home" method="post" enctype="multipart/form-data">
+    <p>
+        <label>Описание</label>
+        <input name="Description" class="form-control" />
+    </p>
+    <p>
+        <label>Местоположение</label>
+        <input name="Location" class="form-control" />
+    </p>
+    <p>
+        <label>Изображение</label>
+        <input type="file" name="image" class="form-control" />
+    </p>
+    <p>
+        <input type="submit" value="Добавить" class="btnclass" />
+    </p>
+</form>
+<div style="justify-content:center">
+    @Html.ActionLink("Вернуться в ленту", "Index")
+</div>
+ 
