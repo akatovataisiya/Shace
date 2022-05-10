@@ -15,23 +15,6 @@ namespace Shace.Logic.Posts
             _context = context;
         }
 
-        public async Task<bool> AddPost()
-        {
-            /*var accountInDb = _context.Accounts.FirstOrDefault(acc => (acc.Email == email || acc.ShortName == shortName));
-            if (accountInDb == null)
-            {
-                var account = new Account();
-                account.Email = email;
-                account.ShortName = shortName;
-                account.Password = password;
-                account.RegDay = DateTime.Now;
-                account.Url = $"https://shace.com/{shortName}";
-                account.Privacy = false;
-                _context.Accounts.Add(account);
-                await _context.SaveChangesAsync();*/
-                return true;
-        }
-
         public Task<bool> DeleteAllPost()
         {
             throw new NotImplementedException();
