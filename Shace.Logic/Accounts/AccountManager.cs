@@ -14,7 +14,7 @@ namespace Shace.Logic.Accounts
 
         public async Task<bool> SignIn(string email, string password)
         {
-            var accountInDb = _context.Accounts.FirstOrDefault(st => st.Email == email && st.Password == password);
+            var accountInDb = _context.Accounts.FirstOrDefault(acc => acc.Email == email && acc.Password == password);
             await Task.Delay(0);
             if (accountInDb != null)
             {
@@ -22,19 +22,9 @@ namespace Shace.Logic.Accounts
             }
             return false;
         }
-
-        public async Task<bool> Find(string email)
-        {
-            var accountInDb = _context.Accounts.FirstOrDefault(st => (st.Email == email));
-            await Task.Delay(0);
-            if (accountInDb == null)
-                return false;
-            return true;
-        }
-
         public async Task<bool> Create(string email, string shortName, string password)
         {
-            var accountInDb = _context.Accounts.FirstOrDefault(st => (st.Email == email || st.ShortName == shortName));
+            var accountInDb = _context.Accounts.FirstOrDefault(acc => (acc.Email == email || acc.ShortName == shortName));
             if (accountInDb == null)
             {
                 var account = new Account();
@@ -52,18 +42,21 @@ namespace Shace.Logic.Accounts
             return false;
         }
 
-
-        public async Task Delete(int id)
+        public async Task<bool> Find(string email)
         {
-            var account = _context.Accounts.Find(id);
-            if (account != null)
-            {
-                _context.Accounts.Remove(account);
-                await _context.SaveChangesAsync();
-            }
-
+            var accountInDb = _context.Accounts.FirstOrDefault(acc => (acc.Email == email));
+            await Task.Delay(0);
+            if (accountInDb == null)
+                return false;
+            return true;
         }
 
-
+        public Account GetAccByEmail(string email)
+        {
+            var accountInDb = _context.Accounts.FirstOrDefault(acc => acc.Email == email);
+            if (accountInDb != null)
+                return accountInDb;
+            else return null;
+        }
     }
 }
