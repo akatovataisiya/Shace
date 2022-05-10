@@ -16,7 +16,13 @@ namespace Shace.Controllers
 
         public AccountController(IAccountManager manager) => _manager = manager;
         [HttpGet]
-        public IActionResult Login() => View();
+        public IActionResult Login()
+        {
+            if (User.Identity.Name != null)
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
+            return View();
+        }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel loginModel)
@@ -39,7 +45,12 @@ namespace Shace.Controllers
         }
 
         [HttpGet]
-        public IActionResult Register() => View();
+        public IActionResult Register()
+        {
+            if (User.Identity.Name != null)
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
