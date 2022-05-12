@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Shace.Logic.Accounts;
 using Shace.Models;
-using Shace.Shace.Logic.Settings;
+using Shace.Logic.Settings;
 
 namespace Shace.Controllers
 {
