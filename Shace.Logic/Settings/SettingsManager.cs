@@ -14,8 +14,7 @@
                 account.BDay = bDay;
             if (photo != null)
                 account.Photo = photo;
-            if (location != null)
-                account.Location = location;
+            account.Location = location;
             account.Description = description;
             account.Phone = phone;
             if (email != null)
