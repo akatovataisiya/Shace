@@ -10,7 +10,7 @@
 
         public bool Privacy { get; set; }
 
-        public long Phone { get; set; } = 0;
+        public long? Phone { get; set; }
 
         [DataType(DataType.Password)]
         [StringLength(32, MinimumLength = 8, ErrorMessage = "• Пароль должен быть от {2} до {1} символов")]

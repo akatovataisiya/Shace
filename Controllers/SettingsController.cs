@@ -29,11 +29,11 @@ namespace Shace.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeAcc(SettingsModel settModel)
         {
+            var accInDB = _accManager.GetAccByEmail(User.Identity.Name);
+            ViewBag.Account = accInDB;
             await Task.Delay(0);
             if (ModelState.IsValid)
             {
-                var accInDB = _accManager.GetAccByEmail(User.Identity.Name);
-                ViewBag.Account = accInDB;
                 _settManager.ChangeAccount(settModel.Email, settModel.ShortName, settModel.Phone, settModel.Description, settModel.Photo, settModel.Location, settModel.BDay, accInDB);
                 if (settModel.Email != null)
                 {
@@ -44,6 +44,8 @@ namespace Shace.Controllers
                             ModelState.AddModelError("", " Почта уже занята.");
                     }
                 }
+                else
+                    ModelState.AddModelError("", " Невозможно удалить почту.");
                 if (settModel.ShortName != null)
                 {
                     if (settModel.ShortName != accInDB.ShortName)
@@ -53,6 +55,8 @@ namespace Shace.Controllers
                             ModelState.AddModelError(""," Никнейм уже занят.");
                     }
                 }
+                else
+                    ModelState.AddModelError("", " Невозможно удалить никнейм.");
             }
             return View("Setting");
         }
