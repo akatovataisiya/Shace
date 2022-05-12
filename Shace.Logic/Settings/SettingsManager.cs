@@ -8,7 +8,7 @@
         {
             _context = context;
         }
-        public void ChangeAccount(string email, string shortName, long phone, string description, string photo, string location, DateTime bDay, Account account)
+        public void ChangeAccount(string? email, string? shortName, long? phone, string? description, string? photo, string? location, DateTime bDay, Account account)
         {
             if (bDay != new DateTime(1, 1, 1))
                 account.BDay = bDay;
@@ -16,10 +16,8 @@
                 account.Photo = photo;
             if (location != null)
                 account.Location = location;
-            if (description != null)
-                account.Description = description;
-            if (phone != 0)
-                account.Phone = phone;
+            account.Description = description;
+            account.Phone = phone;
             if (email != null)
             {
                 var em = FindEmail(email);
