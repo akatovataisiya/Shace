@@ -89,12 +89,7 @@
 </head>
 
 <body>
-
     <div class="tabs">
-        @if (ViewBag.Message != null)
-        {
-            <span>@ViewBag.Message</span>
-        }
         <input type="radio" name="tab-btn" id="tab-btn-1" value="" checked>
         <label for="tab-btn-1">Редактировать профиль</label>
         <input type="radio" name="tab-btn" id="tab-btn-2" value="">
@@ -115,11 +110,7 @@
                 </div>
                 <div style="margin-bottom: 40px; display:block;" class="form-group">
                     <span style="text-align: center;">О себе:</span>
-                    <textarea id="@ViewBag.Account.Description"style="float: right; resize: none;" asp-for="Description"></textarea>
-                    <script language="javascript" type="text/javascript">
-                        var text=document.getElementById("@ViewBag.Account.Description");
-                        text.value=@ViewBag.Account.Description;
-                    </script>
+                    <textarea id="Description" style="float: right; resize: none;" asp-for="Description" placeholder="@ViewBag.Account.Description"></textarea>
                 </div>
                 <div style="margin-bottom: 40px; display:block;" class="form-group">
                     <span style="text-align: center;">Эл.адрес:</span>
