@@ -1,4 +1,4 @@
-﻿namespace Shace.Shace.Logic.Settings
+﻿namespace Shace.Logic.Settings
 {
     public interface ISettingsManager
     {
