@@ -5,11 +5,11 @@
 <style>
     .btnclass{
         border: 0;
-        background: #f7f7f7;
+        background: #ffffff;
         display: block;
         margin: 20px auto;
         text-align: center;
-        border: 1px solid white;
+        border: 1px solid darkgrey;
         padding: 10px 5px;
         width: 200px;
         outline: none;
@@ -18,8 +18,12 @@
         transition: 0.25s;
         text-decoration-color: white;
     }
+    body{
+        background-color: #eef4fd
+    }
 </style>
 
+<body>
  <form asp-action="Create" asp-controller="Home" method="post" enctype="multipart/form-data">
     <p>
         <label>Описание</label>
@@ -31,13 +35,13 @@
     </p>
     <p>
         <label>Изображение</label>
-        <input type="file" name="image"accept="image/*,video/*" class="form-control" />
+        <input type="file" name="image" accept="image/*,video/*" class="form-control" />
     </p>
     <p>
         <input type="submit" value="Добавить" class="btnclass" />
     </p>
+    <p>
+        <a href="~/Home/Index" class="btnclass">Вернуться в ленту</a>
+    </p>
 </form>
-<div style="justify-content:center">
-    @Html.ActionLink("Вернуться в ленту", "Index")
-</div>
- 
+</body> 
