@@ -2,9 +2,9 @@
 {
     public interface ISettingsManager
     {
-        public void ChangeAccount(string? email, string? shortName, long? phone, string? description, string? photo, string? location, DateTime bDay, Account account);
+        public void ChangeAccount(string email, string shortName, long? phone, string? description, string? location, DateTime? bDay, string? photo, Account account);
 
-        public void ChangePassword(string password, Account account);
+        public void ChangePassword(string? password, Account account);
 
         public void Delete(int id);
 
