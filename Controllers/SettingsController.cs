@@ -70,29 +70,46 @@ namespace Shace.Controllers
             }
             if (ModelState.IsValid)
             {
-                _settManager.ChangeAccount(settModel.Email, settModel.ShortName, settModel.Phone, settModel.Description, settModel.Location, settModel.BDay, photo, accInDB);
+                string[] errors = new string[4];
                 if (settModel.Email != null)
                 {
                     if (settModel.Email != accInDB.Email)
                     {
-                        var em = _settManager.FindEmail(settModel.Email);
-                        if (em)
-                            ModelState.AddModelError("", " Почта уже занята.");
+                        if (_settManager.FindEmail(settModel.Email))
+                        {
+                            errors[0] = "• Почта уже занята.";
+                            settModel.Email = accInDB.Email;
+                        }
                     }
                 }
                 else
-                    ModelState.AddModelError("", " Невозможно удалить почту.");
+                {
+                    errors[1] = "• Невозможно удалить почту.";
+                    settModel.Email = accInDB.Email;
+                }
                 if (settModel.ShortName != null)
                 {
                     if (settModel.ShortName != accInDB.ShortName)
                     {
-                        var pass = _settManager.FindShortName(settModel.ShortName);
-                        if (pass)
-                            ModelState.AddModelError(""," Никнейм уже занят.");
+
+                        if (_settManager.FindShortName(settModel.ShortName))
+                        {
+                            errors[2] = "• Никнейм уже занят.";
+                            settModel.ShortName = accInDB.ShortName;
+                        }
                     }
                 }
                 else
-                    ModelState.AddModelError("", " Невозможно удалить никнейм.");
+                {
+                    errors[3] = "• Невозможно удалить никнейм.";
+                    settModel.ShortName = accInDB.ShortName;
+                }
+                _settManager.ChangeAccount(settModel.Email, settModel.ShortName, settModel.Phone, settModel.Description, settModel.Location, settModel.BDay, photo, accInDB);
+                if (errors[0] == null && errors[1] == null && errors[2] == null && errors[3] == null)
+                    ViewBag.Complete = "✓ Настройки успешно изменены.";
+                else
+                    ViewBag.GlobalError = "✗ Настройки не изменены.";
+                ViewBag.Errors = errors;
             }
             return View("Setting");
         }
@@ -103,15 +120,23 @@ namespace Shace.Controllers
             await Task.Delay(0);
             var accInDB = _accManager.GetAccByEmail(User.Identity.Name);
             ViewBag.Account = accInDB;
+            string[] errors = new string[2];
             if (ModelState.IsValid)
             {
                 if (settModel.OldPassword == accInDB.Password)
-                    if(settModel.OldPassword != settModel.NewPassword)
+                {
+                    if (settModel.OldPassword != settModel.NewPassword)
                         _settManager.ChangePassword(settModel.NewPassword, accInDB);
                     else
-                        ModelState.AddModelError("", " Новый пароль совпадает со старым.");
+                        errors[0] = "• Новый пароль совпадает со старым.";
+                }
                 else
-                    ModelState.AddModelError("", " Неверно указан текущий пароль.");
+                    errors[1] = "• Неверно указан текущий пароль.";
+                if (errors[0] == null && errors[1] == null)
+                    ViewBag.Complete = "✓ Настройки успешно изменены.";
+                else
+                    ViewBag.GlobalError = "✗ Настройки не изменены.";
+                ViewBag.ErrorsPass = errors;
             }
             return View("Setting");
         }
