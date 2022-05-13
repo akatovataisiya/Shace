@@ -12,17 +12,13 @@
         {
             account.BDay = bDay;
             if (photo != null)
-            account.Photo = photo;
+                account.Photo = photo;
             account.Location = location;
             account.Description = description;
             account.Phone = phone;
-            if (!FindEmail(email))
-                account.Email = email;
-            if (!FindShortName(shortName))
-            {
-                account.ShortName = shortName;
-                account.Url = $"https://shace.com/{account.ShortName}";
-            }
+            account.Email = email;
+            account.ShortName = shortName;
+            account.Url = $"https://shace.com/{account.ShortName}";
             _context.SaveChanges();
         }
 
