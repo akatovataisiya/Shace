@@ -4,6 +4,7 @@ using Shace.Models;
 using Microsoft.AspNetCore.Authorization;
 using Shace.Logic.Accounts;
 using Shace.Logic.Posts;
+using System.Drawing; //Вытягивать размеры сторон изображения
 
 namespace Shace.Controllers
 {
@@ -14,7 +15,6 @@ namespace Shace.Controllers
         private readonly IAccountManager _accmanager;
         private readonly ILogger<HomeController> _logger;
         private readonly IPostManager _postmanager;
-        private readonly IWebHostEnvironment _appEnvironment;
 
         public HomeController(ILogger<HomeController> logger, IAccountManager accmanager, AccountContext context)
         {
@@ -48,29 +48,63 @@ namespace Shace.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Post _post, IFormFile image)
         {
-            if (image != null)
+            var accountInDb = _accmanager.GetAccByEmail(User.Identity.Name);
+            ViewBag.Account = accountInDb;
+
+            if (image != null && image.Length != 0)
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
-                string fileNameWithPath = Path.Combine(path, image.FileName);
-                // сохраняем файл в папку images в каталоге wwwroot
-                using (var fileStream = new FileStream(fileNameWithPath, FileMode.Create))
+                var supportedImageTypes = new[] { ".jpg", ".jpeg", ".png", ".tiff", ".tif", ".raw", ".dng", ".png", ".gif", ".bmp" };
+                var supportedVideoTypes = new[] { ".avi", ".mp4", ".wmv", ".m4v", ".mov", ".mpeg", ".mpg" };
+                var fileExtension = Path.GetExtension(image.FileName);
+                if (supportedImageTypes.Contains(fileExtension) || supportedVideoTypes.Contains(fileExtension))
                 {
-                    image.CopyToAsync(fileStream);
+                    if (supportedImageTypes.Contains(fileExtension))
+                    {
+                        var file = Image.FromStream(image.OpenReadStream()); //Работает только на винде
+                        if (file.Width < 450)
+                        {
+                            ViewBag.ErrorMsg = "• Размер фото меньше 450x450";
+                            return View();
+                        }
+                        else if (file.Height < 450)
+                        {
+                            ViewBag.ErrorMsg = "• Размер фото меньше 450x450";
+                            return View();
+                        }
+                        else if (file.Width - file.Height > 10)
+                        {
+                            ViewBag.ErrorMsg = "• Соотношение сторон сильно отличается. Фото не квадратное";
+                            return View();
+                        }
+                    }
+
+                    var newname = Convert.ToString(Guid.NewGuid());
+                    var newFileName = newname + fileExtension;
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Posts/");
+                    string fileNameWithPath = Path.Combine(path, newFileName);
+
+                    // сохраняем файл в папку images/Posts в каталоге wwwroot
+                    using (var fileStream = new FileStream(fileNameWithPath, FileMode.Create))
+                    {
+                        image.CopyToAsync(fileStream);
+                    }
+
+                    _post.Photo = newFileName;
+                    _post.AccountId = accountInDb.Id;
+                    _post.PostDate = DateTime.Now;
+                    _post.LikeCounter = 0;
+                    _post.CommentCounter = 0;
+                    _post.MarkCounter = 0;
+                    _post.PostType = 0;
+                    _context.Posts.Add(_post);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
                 }
-                var accountInDb = _accmanager.GetAccByEmail(User.Identity.Name);
-                // установка массива байтов
-                _post.Photo = image.FileName;
-                _post.AccountId = accountInDb.Id;
-                _post.PostDate = DateTime.Now;
-                _post.LikeCounter = 0;
-                _post.CommentCounter = 0;
-                _post.MarkCounter = 0;
-                _post.PostType = 0;
-                _context.Posts.Add(_post);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            
+                else ViewBag.ErrorMsg = "• Формат файла не является изображением/видео";
+                return View();
+
             }
+            ViewBag.ErrorMsg = "• Вы не добавили файл";
             return View();
         }
 

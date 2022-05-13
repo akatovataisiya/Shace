@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Shace.Logic.Accounts;
 using Shace.Models;
 using Shace.Logic.Settings;
+using Microsoft.AspNetCore.Http;
+using System.Drawing;
+using System.Diagnostics;
 
 namespace Shace.Controllers
 {
@@ -11,7 +14,7 @@ namespace Shace.Controllers
     {
 
         private readonly IAccountManager _accManager;
-        private readonly ISettingsManager _settManager;
+        private readonly ISettingsManager _settManager; 
 
         public SettingsController(IAccountManager accManager, ISettingsManager settManager)
         {
@@ -29,12 +32,45 @@ namespace Shace.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeAcc(SettingsModel settModel)
         {
+            string? photo = null;
+            var image = settModel.image;
             var accInDB = _accManager.GetAccByEmail(User.Identity.Name);
             ViewBag.Account = accInDB;
             await Task.Delay(0);
+            if (image != null && image.Length != 0)
+            {
+                var supportedImageTypes = new[] { ".jpg", ".jpeg", ".png", ".tiff", ".tif", ".raw", ".dng", ".png", ".gif", ".bmp" };
+                var fileExtension = Path.GetExtension(image.FileName);
+                if (supportedImageTypes.Contains(fileExtension))
+                {
+                    bool error = false;
+                    var file = Image.FromStream(image.OpenReadStream()); //Работает только на винде
+                    if (file.Width - file.Height > 10)
+                    {
+                        ViewBag.ErrorMsg = "• Соотношение сторон сильно отличается. Фото не квадратное";
+                        error = true;
+                    }
+                    if (!error)
+                    {
+                        var newname = Convert.ToString(Guid.NewGuid());
+                        var newFileName = newname + fileExtension;
+                        string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Profiles/");
+                        string fileNameWithPath = Path.Combine(path, newFileName);
+
+                        // сохраняем файл в папку images/Accounts в каталоге wwwroot
+                        using (var fileStream = new FileStream(fileNameWithPath, FileMode.Create))
+                        {
+                            image.CopyToAsync(fileStream);
+                        }
+                        photo = newFileName;
+                    }
+                }
+                else ViewBag.ErrorMsg = "• Формат файла не является изображением";
+
+            }
             if (ModelState.IsValid)
             {
-                _settManager.ChangeAccount(settModel.Email, settModel.ShortName, settModel.Phone, settModel.Description, settModel.Photo, settModel.Location, settModel.BDay, accInDB);
+                _settManager.ChangeAccount(settModel.Email, settModel.ShortName, settModel.Phone, settModel.Description, settModel.Location, settModel.BDay, photo, accInDB);
                 if (settModel.Email != null)
                 {
                     if (settModel.Email != accInDB.Email)
@@ -94,12 +130,12 @@ namespace Shace.Controllers
         {
             var accInDB = _accManager.GetAccByEmail(User.Identity.Name);
             _settManager.Delete(accInDB.Id);
-            return RedirectToAction("Login","Account");
+            return RedirectToAction("Logout","Account");
         }
 
         [HttpPost]
         [Route("ChangeAcc")]
-        public void ChangeAccount([FromBody] SettingsModel settModel, Account accInDB) => _settManager.ChangeAccount(settModel.Email, settModel.ShortName, settModel.Phone, settModel.Description, settModel.Photo, settModel.Location, settModel.BDay, accInDB);
+        public void ChangeAccount([FromBody] SettingsModel settModel, Account accInDB, string? photo) => _settManager.ChangeAccount(settModel.Email, settModel.ShortName, settModel.Phone, settModel.Description,  settModel.Location, settModel.BDay, photo, accInDB);
 
         [HttpPost]
         [Route("ChangePass")]
