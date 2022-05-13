@@ -11,6 +11,7 @@
         public void ChangeAccount(string email, string shortName, long? phone, string? description, string? location, DateTime? bDay, string? photo, Account account)
         {
             account.BDay = bDay;
+            if (photo != null)
             account.Photo = photo;
             account.Location = location;
             account.Description = description;
