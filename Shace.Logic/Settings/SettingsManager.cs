@@ -8,29 +8,19 @@
         {
             _context = context;
         }
-        public void ChangeAccount(string? email, string? shortName, long? phone, string? description, string? photo, string? location, DateTime bDay, Account account)
+        public void ChangeAccount(string email, string shortName, long? phone, string? description, string? location, DateTime? bDay, string? photo, Account account)
         {
-            if (bDay != new DateTime(1, 1, 1))
-                account.BDay = bDay;
-            if (photo != null)
-                account.Photo = photo;
+            account.BDay = bDay;
+            account.Photo = photo;
             account.Location = location;
             account.Description = description;
             account.Phone = phone;
-            if (email != null)
+            if (!FindEmail(email))
+                account.Email = email;
+            if (!FindShortName(shortName))
             {
-                var em = FindEmail(email);
-                if (!em)
-                    account.Email = email;
-            }
-            if (shortName != null)
-            {
-                var pass = FindShortName(shortName);
-                if (!pass)
-                {
-                    account.ShortName = shortName;
-                    account.Url = $"https://shace.com/{account.ShortName}";
-                }
+                account.ShortName = shortName;
+                account.Url = $"https://shace.com/{account.ShortName}";
             }
             _context.SaveChanges();
         }
@@ -51,7 +41,7 @@
             return true;
         }
 
-        public void ChangePassword(string password, Account account)
+        public void ChangePassword(string? password, Account account)
         {
             if(password!=null)
                 account.Password = password;
