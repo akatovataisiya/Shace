@@ -31,5 +31,7 @@
         public string? Description { get; set; }
 
         public string? Location { get; set; }
+
+        public IFormFile? image { get; set; }
     }
 }
