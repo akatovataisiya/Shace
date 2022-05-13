@@ -25,6 +25,12 @@
 
 <body>
  <form asp-action="Create" asp-controller="Home" method="post" enctype="multipart/form-data">
+    @if(ViewBag.ErrorMsg!=null)
+    {
+        <p>
+            <label style="font-size:16px; color:deepskyblue">@ViewBag.ErrorMsg</label>
+        </p>
+    }
     <p>
         <label>Описание</label>
         <input name="Description" class="form-control" />
@@ -35,7 +41,7 @@
     </p>
     <p>
         <label>Изображение</label>
-        <input type="file" name="image" accept="image/*,video/*" class="form-control" />
+        <input type="file" name="image" accept="image/*,video/*" class="form-control" title="Размер изображения должен быть не меньше 450x450. Оно должно быть квадратным"/>
     </p>
     <p>
         <input type="submit" value="Добавить" class="btnclass" />
