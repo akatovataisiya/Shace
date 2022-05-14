@@ -40,7 +40,7 @@ namespace Shace.Controllers
             if (image != null && image.Length != 0)
             {
                 var supportedImageTypes = new[] { ".jpg", ".jpeg", ".png", ".tiff", ".tif", ".raw", ".dng", ".png", ".gif", ".bmp" };
-                var fileExtension = Path.GetExtension(image.FileName);
+                var fileExtension = Path.GetExtension(image.FileName).ToLower();
                 if (supportedImageTypes.Contains(fileExtension))
                 {
                     bool error = false;
