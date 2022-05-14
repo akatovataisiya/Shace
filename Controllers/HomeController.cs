@@ -55,7 +55,7 @@ namespace Shace.Controllers
             {
                 var supportedImageTypes = new[] { ".jpg", ".jpeg", ".png", ".tiff", ".tif", ".raw", ".dng", ".png", ".gif", ".bmp" };
                 var supportedVideoTypes = new[] { ".avi", ".mp4", ".wmv", ".m4v", ".mov", ".mpeg", ".mpg" };
-                var fileExtension = Path.GetExtension(image.FileName);
+                var fileExtension = Path.GetExtension(image.FileName).ToLower();
                 if (supportedImageTypes.Contains(fileExtension) || supportedVideoTypes.Contains(fileExtension))
                 {
                     if (supportedImageTypes.Contains(fileExtension))
