@@ -3,17 +3,17 @@
     public class Subscribtion
     {
         [Key]
+        public int Id { get; set; }
+
+        [Required]
         [ForeignKey(nameof(Account))]
         public int AccountId { get; set; }
 
-        /*[ForeignKey(nameof(AccountId))]
-        public virtual Account Account { get; set; }*/
-
-
         [Required]
+
+        [ForeignKey(nameof(Account2))]
         public int Account2Id { get; set; }
 
-        [ForeignKey(nameof(Account2Id))]
         public virtual Account Account2 { get; set; }
 
         public virtual Account Account { get; set; }
