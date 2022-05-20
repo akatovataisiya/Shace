@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Shace.Logic.Accounts;
 using Shace.Logic.Posts;
 using Shace.Logic.Settings;
+using Shace.Logic.ProfilePage;
 using Shace.Storage;
 using Shace.Storage.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -14,6 +15,7 @@ services.AddControllersWithViews();
 services.AddScoped<IAccountManager, AccountManager>();
 services.AddScoped<IPostManager, PostManager>();
 services.AddScoped<ISettingsManager, SettingsManager>();
+services.AddScoped<IProfilePageManager, ProfilePageManager>();
 
 //Add DB Context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
