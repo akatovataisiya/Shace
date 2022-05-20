@@ -27,7 +27,11 @@ namespace Shace.Controllers
         {
             var accountInDb = _accmanager.GetAccByEmail(User.Identity.Name);
             ViewBag.AllAccs = _context.Accounts;
-            ViewBag.Account=accountInDb;
+            ViewBag.Account = accountInDb;
+            ViewBag.Likes = _context.Likes;
+            ViewBag.Adds = _context.Advertisments;
+            ViewBag.AddsCount = _context.Advertisments.Count();
+            ViewBag.Subs = _context.Subscribtions.Where(sub => sub.AccountId == accountInDb.Id);
             return View(_context.Posts);
         }
 
@@ -108,7 +112,83 @@ namespace Shace.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Liked(int postid, int accountid)
+        {
+            Like _like = new Like();
+            var postInDb = _context.Posts.Where(post => post.Id == postid).FirstOrDefault();
+            var alreadyLiked = _context.Likes.FirstOrDefault(liker => liker.PostId == postid && liker.AccountId == accountid);
+            if (alreadyLiked == null)
+            {
+                _like.PostId = postid;
+                postInDb.LikeCounter += 1;
+                _like.AccountId = accountid;
+                _context.Likes.Add(_like);
+                _context.SaveChanges();
+            }
+            else
+            {
+                postInDb.LikeCounter -= 1;
+                _context.Likes.Remove(alreadyLiked);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
 
+        [HttpPost]
+        public IActionResult Commented(int postid, int accountid, string text)
+        {
+            Comment _comm = new Comment();
+            var postInDb = _context.Posts.Where(post => post.Id == postid).FirstOrDefault();
+            postInDb.CommentCounter += 1;
+            _comm.CommentDate = DateTime.Now;
+            _comm.PostId = postid;
+            _comm.Text = text;
+            _comm.AccountId = accountid;
+            _context.Comments.Add(_comm);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Search()
+        {
+            var accountInDb = _accmanager.GetAccByEmail(User.Identity.Name);
+            ViewBag.Account = accountInDb;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Search(string search)
+        {
+            var accountInDb = _accmanager.GetAccByEmail(User.Identity.Name);
+            ViewBag.Account = accountInDb;
+            var accInDBSearch = _context.Accounts.Where(s => s.ShortName.Contains(search));
+            var searchAcc = accInDBSearch.OrderByDescending(s => s.ShortName.StartsWith(search)).ToList();
+            var searchUserAcc = searchAcc.FirstOrDefault(s => s.Email == User.Identity.Name);
+            if (searchUserAcc != null)
+                searchAcc.Remove(searchUserAcc);
+            if (searchAcc.Count > 20)
+                searchAcc.RemoveRange(20, searchAcc.Count - 20);
+            ViewBag.AllAccs = searchAcc;
+            ViewBag.Search = search;
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Comments(int postid)
+        {
+            var accountInDb = _accmanager.GetAccByEmail(User.Identity.Name);
+            var post = _context.Posts.FirstOrDefault(p => p.Id == postid);
+            var postowner = _context.Accounts.FirstOrDefault(a => a.Id == post.AccountId);
+            ViewBag.Account = accountInDb;
+            ViewBag.AllAccs = _context.Accounts;
+            ViewBag.PostOwner = postowner;
+            ViewBag.PostDescr = post.Description;
+            var comments = _context.Comments.Where(c => c.PostId == postid).ToList();
+            comments.Reverse();
+            return View(comments);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
