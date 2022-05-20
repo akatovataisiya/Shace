@@ -35,6 +35,8 @@ namespace Shace.Logic.Accounts
                 account.RegDay = DateTime.Now;
                 account.Url = $"https://shace.com/{shortName}";
                 account.Privacy = false;
+                account.SubscibersCounter = 0;
+                account.SubscriptionsCounter = 0;
                 _context.Accounts.Add(account);
                 await _context.SaveChangesAsync();
                 return true;
