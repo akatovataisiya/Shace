@@ -6,5 +6,6 @@
         public List<Post> GetPosts(Account account);
         public Subscribtion IfSub(Account accountInDb, Account accountInDbUser);
         public void Subscribe(Account accountInDb, Account accountInDbUser);
+        public void CreateAd(Advertisment _ad);
     }
 }

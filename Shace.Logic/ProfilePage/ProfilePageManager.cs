@@ -52,5 +52,11 @@
             }
             _context.SaveChanges();
         }
+
+        public void CreateAd(Advertisment _ad)
+        {
+            _context.Advertisments.Add(_ad);
+            _context.SaveChanges();
+        }
     }
 }
