@@ -57,25 +57,6 @@ namespace Shace.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Dialogs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AccountId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Dialogs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Dialogs_Accounts_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Accounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Posts",
                 columns: table => new
                 {
@@ -122,34 +103,6 @@ namespace Shace.Migrations
                         name: "FK_Subscribtions_Accounts_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Accounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Messages",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MessageDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AccountId = table.Column<int>(type: "int", nullable: false),
-                    DialogId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Messages_Accounts_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Accounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Messages_Dialogs_DialogId",
-                        column: x => x.DialogId,
-                        principalTable: "Dialogs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
                 });
@@ -250,11 +203,6 @@ namespace Shace.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Dialogs_AccountId",
-                table: "Dialogs",
-                column: "AccountId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Likes_AccountId",
                 table: "Likes",
                 column: "AccountId");
@@ -273,16 +221,6 @@ namespace Shace.Migrations
                 name: "IX_Marks_PostId",
                 table: "Marks",
                 column: "PostId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Messages_AccountId",
-                table: "Messages",
-                column: "AccountId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Messages_DialogId",
-                table: "Messages",
-                column: "DialogId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_AccountId",
@@ -310,16 +248,10 @@ namespace Shace.Migrations
                 name: "Marks");
 
             migrationBuilder.DropTable(
-                name: "Messages");
-
-            migrationBuilder.DropTable(
                 name: "Subscribtions");
 
             migrationBuilder.DropTable(
                 name: "Posts");
-
-            migrationBuilder.DropTable(
-                name: "Dialogs");
 
             migrationBuilder.DropTable(
                 name: "Accounts");
