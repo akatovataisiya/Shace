@@ -1,7 +1,8 @@
 ﻿/*Авторизация*/
 
 body {
-    background-color: #eef4fd;
+    background-color: #cce4ff;
+    font-family: sans-serif;
 }
 
 .Hello {
@@ -17,3 +18,20 @@ body {
     border-radius: 0px;
     outline: 1px solid lightgray;
 }
+
+
+.btnclass {
+    display: block;
+    text-align: center;
+    border: 1px solid darkgrey;
+    padding: 1px 5px;
+    color: black;
+    border-radius: 2px;
+    transition: 0.25s;
+    text-decoration-color: white;
+}
+
+    .btnclass:hover {
+        color: white;
+        background: lightgray;
+    }
