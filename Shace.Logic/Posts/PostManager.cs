@@ -15,32 +15,46 @@ namespace Shace.Logic.Posts
             _context = context;
         }
 
-        public Task<bool> DeleteAllPost()
+        public void DeletePost(int postid)
         {
-            throw new NotImplementedException();
+            var post = _context.Posts.FirstOrDefault(p=> p.Id==postid);
+            _context.Posts.Remove(post);
+            _context.SaveChanges();
         }
 
-        public Task<bool> DeletePost()
+        public void UpdatePost(string? description, string? location, int postid)
         {
-            throw new NotImplementedException();
+            var post = _context.Posts.FirstOrDefault(p => p.Id == postid);
+            if(description!=null)
+                post.Description = description;
+            if(location!=null)
+                post.Location = location;
+            _context.SaveChanges();
         }
 
-        public Post GetPost(int id)
+        public Post GetPost(int postid)
         {
-            var postInDb = _context.Posts.FirstOrDefault(post => post.AccountId == id);
-            if (postInDb != null)
-                return postInDb;
-            else return null;
+            return _context.Posts.FirstOrDefault(post => post.Id == postid);
         }
 
-        public Post GetPost()
+        public List<Comment> GetComments(int postid)
         {
-            throw new NotImplementedException();
+            return _context.Comments.Where(comment => comment.PostId == postid).ToList();
         }
 
-        public Task<bool> UpdatePost()
-        {
-            throw new NotImplementedException();
+        public Account GetAcc(int id)
+        { 
+            return _context.Accounts.FirstOrDefault(account => account.Id == id);
+        }
+
+        public List<Account> GetAccs()
+        { 
+            return _context.Accounts.ToList();
+        }
+
+        public List<Like> GetLikes(int postid)
+        { 
+            return _context.Likes.Where(like => like.PostId == postid).ToList();
         }
     }
 }
