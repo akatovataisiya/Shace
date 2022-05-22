@@ -151,5 +151,27 @@ namespace Shace.Controllers
             _postmanager.DeletePost(postid);
             return RedirectToAction("Profile", "ProfilePage", new { id = accountInDb.ShortName });
         }
+
+        [HttpGet]
+        public IActionResult Chat(string id)
+        {
+            var accountInDb = _accmanager.GetAccByEmail(User.Identity.Name);
+            var accountInDbUser = _ppmanager.GetAcc(id);
+            var dialId = _ppmanager.Dialog(accountInDb, accountInDbUser);
+            ViewBag.Account = accountInDb;
+            ViewBag.Account2 = accountInDbUser;
+            ViewBag.Messages = _ppmanager.GetMes(accountInDb, accountInDbUser, dialId);
+            ViewBag.Dial = dialId;
+            ViewBag.Dialogs = _ppmanager.GetDial(accountInDb);
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Message(int dialId, string text, string snProf)
+        {
+            var accountInDb = _accmanager.GetAccByEmail(User.Identity.Name);
+            _ppmanager.SendMes(accountInDb, dialId, text);
+            return RedirectToAction("Chat", "ProfilePage", new { id = snProf });
+        }
     }
 }
