@@ -1,0 +1,30 @@
+﻿
+body {
+    margin-top: 100px;
+    background-color: #cce4ff;
+    font-family: sans-serif;
+}
+
+.form-conrol {
+    margin: 400px;
+}
+
+.btnclass {
+    background: #ffffff;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 1px solid darkgrey;
+    padding: 10px 5px;
+    width: 250px;
+    outline: none;
+    color: black;
+    border-radius: 2px;
+    transition: 0.25s;
+    text-decoration-color: white;
+}
+
+    .btnclass:hover {
+        color: white;
+        background: lightgray;
+    }

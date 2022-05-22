@@ -6,82 +6,10 @@
 <head>
   <meta charset="utf-8">
   <title>Настройки</title>
-  <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 1.5;
-      color: #212529;
-      text-align: left;
-      background-color: #fff;
-    }
-
-    .tabs {
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .tabs>input[type="radio"] {
-      display: none;
-    }
-
-    .tabs>input[type="radio"]:checked+label {
-      background-color: #bdbdbd;
-    }
-
-    form{
-        margin: 10px;
-    }
-
-    .tabs>div {
-      /* скрыть контент по умолчанию */
-      display: none;
-      border: 1px solid #eee;
-      padding: 10px 15px;
-      border-radius: 4px;
-    }
-
-    /* отобразить контент, связанный с вабранной радиокнопкой (input type="radio") */
-    #tab-btn-1:checked~#content-1,
-    #tab-btn-2:checked~#content-2,
-    #tab-btn-3:checked~#content-3,
-    #tab-btn-4:checked~#content-4 {
-      display: block;
-    }
-
-    .tabs>label {
-      display: inline-block;
-      text-align: center;
-      vertical-align: middle;
-      user-select: none;
-      background-color: #eee;
-      border: 1px solid transparent;
-      padding: 2px 8px;
-      font-size: 16px;
-      line-height: 1.5;
-      border-radius: 4px;
-      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
-      margin-left: 6px;
-      cursor: pointer;
-      margin-bottom: 10px;
-    }
-
-    .tabs>label:first-of-type {
-      margin-left: 0;
-    }
-  </style>
+   <link rel="stylesheet" href="~/css/style-set.css">
   <script>
    function DeleteAcc(f) {
-    if (confirm("Вы уверены, что хотите удалить аккаунт?\nЭта операция не восстановима.")) 
+    if (confirm("Вы уверены, что хотите удалить аккаунт?\nЭта операция не обратима.")) 
        f.submit();
    }
   </script>
@@ -89,6 +17,10 @@
 </head>
 
 <body>
+        @if(ViewBag.Complete!=null)
+        {<p class="errors" style="color:green;">@ViewBag.Complete</p>}
+        @if(ViewBag.GlobalError!=null)
+        {<p class="errors" style="color:red;">@ViewBag.GlobalError</p>}
     <div class="tabs">
         <input type="radio" name="tab-btn" id="tab-btn-1" value="" checked>
         <label for="tab-btn-1">Редактировать профиль</label>
@@ -99,61 +31,91 @@
         <input type="radio" name="tab-btn" id="tab-btn-4" value="">
         <label for="tab-btn-4">Удалить аккаунт</label>
         <div id="content-1">
-            <form asp-action="ChangeAcc" asp-controller="Settings" asp-anti-forgery="true" class="ChangeAcc">
+            <form  class="formstyle" asp-action="ChangeAcc" asp-controller="Settings" asp-anti-forgery="true"  method="post" enctype="multipart/form-data">
                 <div class="validation" style="display:block;font-size:16px;margin-left:50px; margin-right:30px; text-align:left; color:deepskyblue" asp-validation-summary="ModelOnly"> </div>
                 <span style="display:block;font-size:16px;margin-left:50px; margin-right:30px; text-align:left; color:deepskyblue" asp-validation-for="ShortName"></span>
                 <span style="display:block;font-size:16px;margin-left:50px; margin-right:30px; text-align:left; color:deepskyblue" asp-validation-for="Email"></span>
-
+                <div>
+                    @if (ViewBag.ErrorMsg != null)
+                    {
+                        <p style="font-size:16px; color:deepskyblue"> @ViewBag.ErrorMsg</p>
+                    }
+                    @if (ViewBag.Errors != null)
+                    {
+                        foreach (var error in ViewBag.Errors)
+                        {
+                            if (error != null)
+                            {
+                                <p style="font-size:16px;margin-left:50px; margin-right:30px; text-align:left; color:deepskyblue">@error</p>
+                            }
+                        }
+                    }
+                    <img src="@Url.Content("~/images/Profiles/"+@ViewBag.Account.Photo)" width="60" height="60">
+                    <label style="margin-left:70px">Изменить изображение</label>
+                    <input style="margin-top:10px; margin-bottom:30px" type="file" accept="image/*" class="form-control" asp-for="image" title="Изображение должно быть квадратным"/>
+                </div>
                 <div style="margin-bottom: 40px; display:block;" class="form-group">
-                    <span style="text-align: center;">Имя пользователя:</span>
+                    <span style="font-weight:bold;">Имя пользователя:</span>
                     <input style="float: right;" type="text" asp-for="ShortName" value="@ViewBag.Account.ShortName">
                 </div>
                 <div style="margin-bottom: 40px; display:block;" class="form-group">
-                    <span style="text-align: center;">О себе:</span>
-                    <textarea id="Description" style="float: right; resize: none;" asp-for="Description" placeholder="@ViewBag.Account.Description"></textarea>
-                </div>
-                <div style="margin-bottom: 40px; display:block;" class="form-group">
-                    <span style="text-align: center;">Эл.адрес:</span>
+                    <span style="font-weight:bold;">Эл.адрес:</span>
                     <input style="float: right;" type="text" asp-for="Email" value="@ViewBag.Account.Email">
                 </div>
                 <div style="margin-bottom: 40px; display:block;" class="form-group">
-                    <span style="text-align: center;">Номер телефона:</span>
+                    <span style="font-weight:bold;">Номер телефона:</span>
                     <input style="float: right;" type="text" asp-for="Phone" value="@ViewBag.Account.Phone">
                 </div>
                 <div style="margin-bottom: 40px; display:block;" class="form-group">
-                    <span style="text-align: center;">Локация:</span>
+                    <span style="font-weight:bold;">Локация:</span>
                     <input style="float: right;" type="text" asp-for="Location" value="@ViewBag.Account.Location">
                 </div>
-                <div style="margin-bottom: 40px; display:block;" class="form-group">
-                    <input style="float: right;" type="submit" value="Отправить">
+                 <div style="margin-bottom: 40px; display:block;" class="form-group">
+                    <span style="font-weight:bold;">О себе:</span>
+                    <textarea id="Description" style="float: right; resize: none; width:202px" asp-for="Description" placeholder="@ViewBag.Account.Description"></textarea>
+                </div>
+                <div style="margin-bottom: 40px; display:block;">
+                    <input style="float: right;" type="submit" value="Отправить" class="btnclass">
                 </div>
             </form>
         </div>
         <div id="content-2">
-            <form asp-action="ChangePass" asp-controller="Settings" asp-anti-forgery="true" class="ChangePass">
+            <form  class="formstyle" asp-action="ChangePass" asp-controller="Settings" asp-anti-forgery="true" >
                 <div class="validation" style="display:block;font-size:16px;margin-left:50px; margin-right:30px; text-align:left; color:deepskyblue" asp-validation-summary="ModelOnly"> </div>
                 <span style="display:block;font-size:16px;margin-left:50px; margin-right:30px; text-align:left; color:deepskyblue" asp-validation-for="OldPassword"></span>
                 <span style="display:block;font-size:16px;margin-left:50px; margin-right:30px; text-align:left; color:deepskyblue" asp-validation-for="NewPassword"></span>
                 <span style="display:block;font-size:16px;margin-left:50px; margin-right:30px; text-align:left; color:deepskyblue" asp-validation-for="ConfirmPassword"></span>
+                <div>
+                    @if (ViewBag.ErrorsPass != null)
+                    {
+                        foreach (var error in ViewBag.ErrorsPass)
+                        {
+                            if (error != null)
+                            {
+                                <p style="font-size:16px;margin-left:50px; margin-right:30px; text-align:left; color:deepskyblue">@error</p>
+                            }
+                        }
+                    }
+                </div>
                 <div style="margin-bottom: 40px; display:block;" class="form-group">
-                    <span>Старый пароль:</span>
+                    <span style="font-weight:bold;">Старый пароль:</span>
                     <input style="float: right;" type="password" asp-for="OldPassword">
                 </div>
                 <div style="margin-bottom: 40px; display:block;" class="form-group">
-                    <span>Новый пароль:</span>
+                    <span style="font-weight:bold;">Новый пароль:</span>
                     <input style="float: right;" type="password" asp-for="NewPassword">
                 </div>
                 <div style="margin-bottom: 40px; display:block;" class="form-group">
-                    <span>Подтв. пароля:</span>
+                    <span style="font-weight:bold;">Подтв. пароля:</span>
                     <input style="float: right;" type="password" asp-for="ConfirmPassword">
                 </div>
                 <div style="margin-bottom: 40px; display:block;" class="form-group">
-                    <input style="float: right;" type="submit" value="Сменить пароль">
+                    <input style="float: right;" type="submit" value="Сменить пароль" class="btnclass">
                 </div>
             </form>
         </div>
         <div id="content-3">
-            <form id="form-@ViewBag.Account.Privacy" asp-action="PrTrFal" asp-controller="Settings">
+            <form id="form-@ViewBag.Account.Privacy" class="formstyle" asp-action="PrTrFal" asp-controller="Settings">
                 @if (ViewBag.Account.Privacy == true)
                 {
                     <div>
@@ -176,14 +138,16 @@
                 }
             </form>
         </div>
-        <div id="content-4">
-            <form asp-action="DeleteAcc" asp-controller="Settings" asp-anti-forgery="true" class="DeleteAcc" onsubmit="DeleteAcc(this);return false">
+       <div id="content-4">
+            <form asp-action="DeleteAcc" asp-controller="Settings" asp-anti-forgery="true" class="formstyle" onsubmit="DeleteAcc(this);return false">
                 <div class="validation" style="display:block;font-size:16px;margin-left:50px; margin-right:30px; text-align:left; color:deepskyblue" asp-validation-summary="ModelOnly"> </div>
+                <p style="font-family: sans-serif;text-indent: 30px; text-align:justify"> Как только вы нажмете на кнопку ниже, ваши фото, комментарии, отметки "Нравится", дружеские связи и все прочие данные будут безвозвратно удалены без возможности восстановления. Если вы решите создать другой аккаунт в будущем, вы сможете использовать ваше имя пользователя, если оно не будет занято.</p>
                 <input type="submit" value="Удалить аккаунт">
             </form>
         </div>
     </div>
-
+     <div style=" position: absolute; bottom: 0; right: 0;"class="container">
+            &copy; 2022 - Shace - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+     </div>
 </body>
-
 </html>

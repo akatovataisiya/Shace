@@ -1,16 +1,16 @@
 ﻿@{
-    ViewBag.Title = "Create Post";
+    ViewBag.Title = "Create Advertisment";
 }
 <!DOCTYPE html>
 <html lang="ru">
 <head>
    <meta charset="utf-8">
-   <title>Create Post</title>
+   <title>Create Advertisment</title>
    <link rel="stylesheet" href="~/css/style-create.css">
 </head>
 
 <body>
- <form asp-action="Create" asp-controller="Home" method="post" enctype="multipart/form-data">
+ <form asp-action="Create" asp-controller="ProfilePage" method="post" enctype="multipart/form-data">
     @if(ViewBag.ErrorMsg!=null)
     {
         <p>
@@ -22,18 +22,18 @@
         <input name="Description" class="form-control" />
     </p>
     <p>
-        <label>Местоположение</label>
-        <input name="Location" class="form-control" />
+        <label>Ссылка</label>
+        <input name="UrlTo" class="form-control" />
     </p>
     <p>
         <label>Изображение</label>
         <input type="file" name="image" accept="image/*,video/*" class="form-control" title="Размер изображения должен быть не меньше 450x450. Оно должно быть квадратным"/>
     </p>
     <p>
-        <input type="submit" value="Добавить" class="btnclass" />
+        <input type="submit" value="Оплатить и опубликовать" class="btnclass" />
     </p>
     <p>
-        <a href="~/Home/Index" class="btnclass">Вернуться в ленту</a>
+        <input onclick="history.back();" class="btnclass" value="Вернуться назад" type="button">
     </p>
 </form>
 <div style=" position: absolute; bottom: 0; right: 0;"class="container">

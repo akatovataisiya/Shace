@@ -1,0 +1,165 @@
+﻿@{
+    ViewBag.Title = "Post";
+}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <title>Post</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+        background-color: #cce4ff;
+        font-family: sans-serif;
+        }
+
+        .Hello {
+            width: 700px;
+            padding: 40px;
+            text-decoration-color: rgba(250, 250, 250, 1);
+            margin-left: 25%;
+            background-color: white; /* рамочка*/
+            text-align: center;
+            border-radius: 0px;
+            outline: 1px solid lightgray;
+        }
+
+        .butnclass {
+            display: block;
+            text-align: center;
+            border: 1px solid darkgrey;
+            padding: 10px 5px;
+            width: 200px;
+            color: black;
+            border-radius: 2px;
+            transition: 0.25s;
+            text-decoration-color: white;
+        }
+
+         .butnclass:hover {
+            color: white;
+            background: lightgray;
+        }
+
+       .btnclass {
+            display: block;
+            text-align: center;
+            border: 1px solid darkgrey;
+            padding: 1px 5px;
+            color: black;
+            border-radius: 2px;
+            transition: 0.25s;
+            text-decoration-color: white;
+        }
+
+       .btnclass:hover {
+            color: white;
+            background: lightgray;
+    }   
+
+    </style>
+</head>
+<body>
+    <div>
+        <div class="Hello" style="display:block; height:auto; margin-top:90px;">
+            <input style="text-align:center; margin-bottom:25px; margin-left:34%;" onclick="history.back();" class="butnclass" value="Вернуться назад" type="button">
+            @if (ViewBag.PostAcc.Id == ViewBag.Account.Id)
+            {
+                <form asp-action="DeletePost" asp-controller="ProfilePage" method="post" style="float:right">
+                <input type="hidden" name="postid" value="@ViewBag.Post.Id">
+                <button style="border:none; background-color:white">
+                    <img src="~/images/delete.png" width="20" height="20" style="margin-right:5px">
+                </button>
+                </form>
+                <form asp-action="UpdatePost" asp-controller="ProfilePage" method="get" style="float:right">
+                <input type="hidden" name="postid" value="@ViewBag.Post.Id">
+                <button style="border:none; background-color:white">
+                    <img src="~/images/update.png" width="20" height="20">
+                </button>
+                </form>
+            }
+            <br>
+            <img style="float:left; margin-left:10px" src="@Url.Content("~/images/Profiles/"+@ViewBag.PostAcc.Photo)" width="40" height="40">
+            <a style="color:black; text-decoration:none; margin-top:7px; margin-left:3px; float:left" href='@Url.Action("Profile","ProfiilePage",new {id=@ViewBag.PostAcc.ShortName})'>@Html.Raw(@ViewBag.PostAcc.ShortName)</a>
+            <br>
+            @if (ViewBag.Post.Location != null)
+            {
+            <br>
+            <a style="float:left; margin-top:10px; margin-right:5px; margin-left:10px"><img src="~/images/point.png" width="16" height="16" style="margin-right:5px">@Html.Raw(ViewBag.Post.Location)</a>
+            }
+            <br>
+            <br>
+            <p style="margin-top:10px"><img width="600" height="600" src="@Url.Content("~/images/Posts/"+ViewBag.Post.Photo)"></p>
+            <p style="margin-top:10px; float:left; margin-left:10px">@Html.Raw(ViewBag.Post.Description)</p><br><br>
+            <form asp-action="Liked" asp-controller="ProfilePage">
+                <p>
+                    <input id="Postid" name="postid" value="@ViewBag.Post.Id" type="hidden">
+                    <input name="accountid" value="@ViewBag.Account.Id" type="hidden">
+                </p>
+                @{
+                    bool ifliked = false;
+                }
+                @foreach (var like in ViewBag.Likes)
+                {
+                    @if (like.PostId == ViewBag.Post.Id && like.AccountId == ViewBag.Account.Id)
+                    {
+                        ifliked = true;
+                    }
+                }
+                @if (ifliked)
+                {
+                    <button style="margin-top:7px; float:left; border:none; background-color:white" type="submit"><img src="~/images/redlike.png" width="20" height="20" alt="Like" style="margin-right:5px">@ViewBag.Post.LikeCounter</button>
+                }
+                else
+                {
+                    <button style="margin-top:7px; float:left; border:none; background-color:white" type="submit"><img src="~/images/like.png" width="20" height="20" alt="Like" style="margin-right:5px">@ViewBag.Post.LikeCounter</button>
+                }
+            </form>
+            <p>
+                <form asp-action="Commented" asp-controller="ProfilePage">
+                    <p>
+                        <input id="Postid" name="postid" value="@ViewBag.Post.Id" type="hidden">
+                        <input name="accountid" value="@ViewBag.Account.Id" type="hidden">
+                    </p>
+                    <details class="details-overlay details-reset" closed>
+                        <p><summary class="nav-link text-dark" style="float:left"><img src="~/images/chat.png" width="20" height="20" alt="Comment"> @ViewBag.Post.CommentCounter</summary></p>
+                        <details-menu>
+                            <p style="float:left; margin-top:7px; margin-left:5px"><input style="width:300px; border: 1px solid darkgrey; border-radius: 2px;" name="text" placeholder="Введите ваш комментарий" /></p>
+                            <p style="float:left; margin-top:7px"><button class="btnclass" type="submit">Отправить</button></p>
+                        </details-menu>
+                    </details>
+                </form>
+            </p>
+            <p id="@ViewBag.Post.Id" style="margin-top:20px; float:right; margin-bottom:10px">@Html.Raw(ViewBag.Post.PostDate.ToShortDateString())</p><br>
+            @if (ViewBag.Post.CommentCounter != 0)
+            {
+                <hr style="margin-top:50px; margin-bottom:25px"/>
+            }
+            @foreach(var comm in ViewBag.Comments)
+            {
+                @foreach (var  acc in ViewBag.AllAccs)
+            {
+                if (acc.Id == comm.AccountId)
+                {
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="navbar-item">
+                            <img style="float:left; margin-left:10px" src="@Url.Content("~/images/Profiles/"+@acc.Photo)" width="40" height="40">
+                            <a style="margin-top:7px; margin-left:3px; color:black; text-decoration:none; float:left" href='@Url.Action("Profile","ProfilePage",new {id=acc.ShortName})'>@acc.ShortName</a>
+                        </li>
+                        <li class="navbar-item">
+                            <p style="float:left; margin-top:15px">@comm.Text</p>
+                            <p style="float:right">@comm.CommentDate.ToShortDateString()</p>
+                        </li>
+                    </ul>
+                    <hr style="margin-bottom:25px"/>
+                    break;
+                }
+            }
+            }
+        </div>
+    </div>
+</body>
+</html>

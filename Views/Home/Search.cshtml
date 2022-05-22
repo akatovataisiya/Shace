@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+   <meta charset="utf-8">
+   <title>Поиск</title>
+   <link rel="stylesheet" href="~/css/style-search.css">
+</head>
+<body style="margin-top:100px">
+    <div class="search" style="display:block;">
+        <h1>Поиск</h1>
+        <form asp-controller="Home" asp-action="Search">
+            <p>
+            <input style="display:inline; background-color:white;"  type="text" name="search" class="nav-link text-dark" value="@ViewBag.Search" placeholder="Поиск...">
+            <button style="margin-left:-5px"><img src="~/images/search.png"  width="37" height="37"  alt="Search"></button>
+            </p>
+        </form>
+    </div>
+
+    <div style="display:block; margin-top:20px;">
+        @if (ViewBag.Search != null)
+        {
+            @if (ViewBag.AllAccs.Count != 0)
+            {
+                @foreach (var name in @ViewBag.AllAccs)
+                {
+                    <a style="float:left;" class="text" href='@Url.Action("Profile","ProfilePage",new {id=name.ShortName})'><span><img style="margin-left:10px; margin-right:5px;" src="@Url.Content("~/images/Profiles/"+@name.Photo)" width="40" height="40"></span>@Html.Raw(name.ShortName)</a>
+                    <br />
+                    <br />
+                    <br />
+                }
+
+            }
+            else
+            {
+                <div>
+                    <span>Совпадения не найдены.</span>
+                </div>
+            }
+        }
+        else
+        {
+            <div>
+                <span>Введите пользователя, которого хотите найти.</span>
+            </div>
+        }
+    </div>
+    <div style=" position: absolute; bottom: 0; right: 0;"class="container">
+            &copy; 2022 - Shace - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+     </div>
+
+</body>
+</html>

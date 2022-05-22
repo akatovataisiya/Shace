@@ -1,0 +1,105 @@
+﻿@{
+    int chats = 0;
+}
+<head>
+     <meta charset="utf-8">
+    <title>Chat</title>
+    <style>
+
+    body {
+        background-color: white;
+        font-family: sans-serif;
+    }
+
+    .btnclass {
+    text-align: center;
+    border: 1px solid darkgrey;
+    padding: 1px 5px;
+    color: black;
+    border-radius: 2px;
+    transition: 0.25s;
+    text-decoration-color: white;
+}
+
+    .btnclass:hover {
+        color: white;
+        background: lightgray;
+    }
+    </style>
+</head>
+<body style="margin-top:100px">
+    <div style="float:left; margin-right: 20px; padding:20px;">
+    @foreach(var dialog in ViewBag.Dialogs)
+    {
+            @if (ViewBag.Account2 != null)
+            {
+                @if (dialog.ShortName == ViewBag.Account2.ShortName)
+                {
+                    <p>
+                        <a style="background-color:lightgrey; padding-top:15px; padding-bottom:20px; padding-right:15px; padding-left:1px; border-radius: 5px; color:black; text-decoration:none;" href='@Url.Action("Chat","ProfilePage",new {id=dialog.ShortName})'><img style="margin-right:3px" src="@Url.Content("~/images/Profiles/"+@dialog.Photo)" width="40" height="40"> @dialog.ShortName</a>
+                    </p>
+                    chats++;
+                }
+                else
+                {
+                    <p>
+                        <a style="color:black; text-decoration:none;" href='@Url.Action("Chat","ProfilePage",new {id=dialog.ShortName})'><img style="margin-right:3px" src="@Url.Content("~/images/Profiles/"+@dialog.Photo)" width="40" height="40"> @dialog.ShortName</a>
+                    </p>
+                    chats++;
+                }
+            }
+            else
+            {
+                <p>
+                    <a style="color:black; text-decoration:none;" href='@Url.Action("Chat","ProfilePage",new {id=dialog.ShortName})'><img style="margin-right:3px" src="@Url.Content("~/images/Profiles/"+@dialog.Photo)" width="40" height="40"> @dialog.ShortName</a>
+                </p>
+                    chats++;
+            }
+        }
+    </div>
+        @if (chats == 0)
+        {
+            <p style="margin-left:30%; font-size:30px; margin-top:200px; max-width:610px">Вы еще не начали ни одного диалога</p>
+        }
+    <div style="padding-left:20px; border-left: 3px solid lightgrey; margin-left: 320px;">
+        @if (ViewBag.Messages != null)
+        {   
+        <form asp-action="Message" asp-controller="ProfilePage" style="margin-bottom:35px;">
+            <input type="hidden" value="@ViewBag.Account2.ShortName" name="snProf">
+            <input type="hidden" value="@ViewBag.Dial" name="dialId">
+            <input type="text"  style="width:300px; border: 1px solid darkgrey; border-radius: 2px;" placeholder="Напишите сообщение..." name="text">
+            <input class="btnclass" type="submit" value="Отправить">
+        </form>
+        <div>
+            @if (ViewBag.Messages.Count > 0)
+                {
+                    foreach (var message in ViewBag.Messages)
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            @if (message.AccountId == ViewBag.Account.Id)
+                            {
+                                <li class="navbar-item">
+                                <p><img style="margin-right:3px" src="@Url.Content("~/images/Profiles/"+@ViewBag.Account.Photo)" width="20" height="20">@ViewBag.Account.ShortName: @message.Text</p>
+                                <p style="float:right; margin-right:100px; margin-top:-25px">@message.MessageDate</p>
+                                <hr/>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="navbar-item">
+                                <p><img style="margin-right:3px" src="@Url.Content("~/images/Profiles/"+@ViewBag.Account2.Photo)" width="20" height="20">@ViewBag.Account2.ShortName: @message.Text</p>
+                                <p style="float:right; margin-right:100px; margin-top:-25px">@message.MessageDate</p>
+                                <hr/>
+                                </li>
+                            }
+                        </ul>
+                    }
+                }
+                else
+                {
+                    <p>Начните диалог c @ViewBag.Account2.ShortName</p>
+                }
+        </div>
+        }
+    </div>
+</body>

@@ -1,0 +1,45 @@
+﻿body {
+    margin-top: 100px;
+    height: auto;
+    background-position: center;
+    background-size: cover;
+    background-color: white;
+    font-family: sans-serif;
+}
+
+
+.btnclass {
+   /* position: relative;
+    left: 50px;*/
+    background-color: white;
+    display: block;
+    margin-top:-25px;
+    margin-left: 220px;
+    text-align: center;
+    border: 1px solid darkgrey;
+    padding: 5px 5px;
+    width: 150px;
+    outline: none;
+    color: black;
+    border-radius: 2px;
+    transition: 0.25s;
+    text-decoration-color: white;
+}
+
+    .btnclass:hover {
+        color: white;
+        background: lightgray;
+    }
+.text {
+    color: black; /* Цвет ссылок */
+    margin-top: 7px;
+    text-decoration: none;
+}
+
+    .text:visited {
+        color: black; /* Цвет посещенных ссылок */
+    }
+
+    .text:active {
+        color: black; /* Цвет активных ссылок */
+    }

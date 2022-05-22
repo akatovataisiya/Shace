@@ -1,0 +1,127 @@
+﻿/*Настройки*/
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin-top: 69px;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #cce4ff;
+    font-family: sans-serif;
+}
+
+.btnclass {
+    border: 0px;
+    background: #ffffff;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 1px solid darkgrey;
+    padding: 10px 5px;
+    width: 250px;
+    outline: none;
+    color: black;
+    border-radius: 2px;
+    transition: 0.25s;
+    text-decoration-color: white;
+}
+
+    .btnclass:hover {
+        color: white;
+        background: lightgray;
+    }
+
+.tabs { /*рамка 1*/
+    padding: 15px;
+    max-width: 250px;
+    margin-left: 250px;
+    height: 180px;
+    height: 700px;
+    background-color: white;
+    border: 1px solid darkgrey;
+    text-align: center;
+    border-radius: 0px;
+}
+
+    .tabs > input[type="radio"] {
+        display: none;
+    }
+
+        .tabs > input[type="radio"]:checked + label {
+            background-color: lightgray;
+        }
+
+.formstyle { /*block*/
+    margin-left: 53px;
+    margin-top: 99px;
+    padding: 15px;
+    width: 550px;
+    height: 700px;
+    background-color: white;
+    border: 1px solid darkgrey;
+}
+
+.errors {
+    height:25px;
+    border: 1px solid darkgrey;
+    margin-top: 73px;
+    font-size: 16px;
+    text-align: center;
+    background-color: white;
+    margin-left: 250px;
+    margin-right: 247px;
+    margin-bottom: -1px;
+}
+
+.tabs > div {
+    /* скрыть контент по умолчанию */
+    display: none;
+}
+
+/* отобразить контент, связанный с вабранной радиокнопкой (input type="radio") */
+#tab-btn-1:checked ~ #content-1,
+#tab-btn-2:checked ~ #content-2,
+#tab-btn-3:checked ~ #content-3,
+#tab-btn-4:checked ~ #content-4 {
+    display: block;
+    margin: -275px;
+    width: 400px;
+    margin-left: 180px;
+    margin-right: 0px;
+    text-align: left;
+}
+
+.tabs > label {
+    width: 200px; /*ширина кнопки*/
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: white;
+    border: 1px solid grey;
+    /*    border: 1px solid transparent;*/
+    padding: 2px 8px;
+    font-size: 16px;
+    line-height: 1.5;
+    border-radius: 4px;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    margin-left: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+    .tabs > label:hover {
+        color: white;
+        background: lightgray;
+    }
+
+    .tabs > label:first-of-type {
+    }
