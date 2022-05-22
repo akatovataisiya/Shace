@@ -156,22 +156,56 @@ namespace Shace.Controllers
         public IActionResult Chat(string id)
         {
             var accountInDb = _accmanager.GetAccByEmail(User.Identity.Name);
-            var accountInDbUser = _ppmanager.GetAcc(id);
-            var dialId = _ppmanager.Dialog(accountInDb, accountInDbUser);
             ViewBag.Account = accountInDb;
-            ViewBag.Account2 = accountInDbUser;
-            ViewBag.Messages = _ppmanager.GetMes(accountInDb, accountInDbUser, dialId);
-            ViewBag.Dial = dialId;
-            ViewBag.Dialogs = _ppmanager.GetDial(accountInDb);
-            return View();
+            if (id != null)
+            {
+                var accountInDbUser = _ppmanager.GetAcc(id);
+                var dialId = _ppmanager.Dialog(accountInDb, accountInDbUser);
+                ViewBag.Account2 = accountInDbUser;
+                ViewBag.Messages = _ppmanager.GetMes(accountInDb, accountInDbUser, dialId);
+                ViewBag.Dial = dialId;
+            }
+                ViewBag.Dialogs = _ppmanager.GetDial(accountInDb);
+                return View();
         }
 
         [HttpPost]
         public IActionResult Message(int dialId, string text, string snProf)
         {
-            var accountInDb = _accmanager.GetAccByEmail(User.Identity.Name);
-            _ppmanager.SendMes(accountInDb, dialId, text);
-            return RedirectToAction("Chat", "ProfilePage", new { id = snProf });
+            if (text != null)
+            {
+                var accountInDb = _accmanager.GetAccByEmail(User.Identity.Name);
+                _ppmanager.SendMes(accountInDb, dialId, text);
+            }
+                return RedirectToAction("Chat", "ProfilePage", new { id = snProf });
+        }
+
+        [HttpPost]
+        public IActionResult Liked(int postid, int accountid)
+        {
+            var like = _postmanager.GetLikes(postid);
+            var alreadyLiked = like.FirstOrDefault(liker => liker.PostId == postid && liker.AccountId == accountid);
+            if (alreadyLiked == null)
+            {
+                _postmanager.Like(postid, accountid);
+            }
+            else
+            {
+                _postmanager.DeleteLike(postid, accountid);
+            }
+            return RedirectToAction("Post", new { id = postid});
+        }
+
+        [HttpPost]
+        public IActionResult Commented(int postid, int accountid, string text)
+        {
+            Comment _comm = new Comment();
+            _comm.CommentDate = DateTime.Now;
+            _comm.PostId = postid;
+            _comm.Text = text;
+            _comm.AccountId = accountid;
+            _postmanager.CommentPost(_comm, postid);
+            return RedirectToAction("Post", new { id = postid});
         }
     }
 }

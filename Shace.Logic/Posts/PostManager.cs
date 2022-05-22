@@ -56,5 +56,35 @@ namespace Shace.Logic.Posts
         { 
             return _context.Likes.Where(like => like.PostId == postid).ToList();
         }
+
+        public void Like(int postid, int accountid)
+        {
+
+            Like _like = new Like();
+            var postInDb = _context.Posts.Where(post => post.Id == postid).FirstOrDefault();
+            _like.PostId = postid;
+            postInDb.LikeCounter += 1;
+            _like.AccountId = accountid;
+            _context.Likes.Add(_like);
+            _context.SaveChanges();
+        }
+
+        public void DeleteLike(int postid, int accountid)
+        {
+            Like _like = new Like();
+            var postInDb = _context.Posts.Where(post => post.Id == postid).FirstOrDefault();
+            var alreadyLiked = _context.Likes.FirstOrDefault(liker => liker.PostId == postid && liker.AccountId == accountid);
+            postInDb.LikeCounter -= 1;
+            _context.Likes.Remove(alreadyLiked);
+            _context.SaveChanges();
+        }
+
+        public void CommentPost(Comment _comm, int postid)
+        {
+            var postInDb = _context.Posts.Where(post => post.Id == postid).FirstOrDefault();
+            postInDb.CommentCounter += 1;
+            _context.Comments.Add(_comm);
+            _context.SaveChanges();
+        }
     }
 }

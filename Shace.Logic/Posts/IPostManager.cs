@@ -15,5 +15,8 @@ namespace Shace.Logic.Posts
         public Account GetAcc(int id);
         public List<Account> GetAccs();
         public List<Like> GetLikes(int postid);
+        public void Like(int postid, int accountid);
+        public void DeleteLike(int postid, int accountid);
+        public void CommentPost(Comment _comm, int postid);
     }
 }
