@@ -30,13 +30,12 @@ namespace Shace.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> ChangeAcc(SettingsModel settModel)
+        public IActionResult ChangeAcc(SettingsModel settModel)
         {
             string? photo = null;
             var image = settModel.image;
             var accInDB = _accManager.GetAccByEmail(User.Identity.Name);
             ViewBag.Account = accInDB;
-            await Task.Delay(0);
             if (image != null && image.Length != 0)
             {
                 var supportedImageTypes = new[] { ".jpg", ".jpeg", ".png", ".tiff", ".tif", ".raw", ".dng", ".png", ".gif", ".bmp" };
@@ -45,7 +44,7 @@ namespace Shace.Controllers
                 {
                     bool error = false;
                     var file = Image.FromStream(image.OpenReadStream()); //Работает только на винде
-                    if (file.Width - file.Height > 10)
+                    if (Math.Abs(file.Width - file.Height) > 10)
                     {
                         ViewBag.ErrorMsg = "• Соотношение сторон сильно отличается. Фото не квадратное";
                         error = true;
@@ -117,28 +116,19 @@ namespace Shace.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangePass(SettingsModel settModel)
+        public IActionResult ChangePass(SettingsModel settModel)
         {
-            await Task.Delay(0);
             var accInDB = _accManager.GetAccByEmail(User.Identity.Name);
             ViewBag.Account = accInDB;
-            string[] errors = new string[2];
             if (ModelState.IsValid)
             {
                 if (settModel.OldPassword == accInDB.Password)
-                {
-                    if (settModel.OldPassword != settModel.NewPassword)
+                    if(settModel.OldPassword != settModel.NewPassword)
                         _settManager.ChangePassword(settModel.NewPassword, accInDB);
                     else
-                        errors[0] = "• Новый пароль совпадает со старым.";
-                }
+                        ModelState.AddModelError("", " Новый пароль совпадает со старым.");
                 else
-                    errors[1] = "• Неверно указан текущий пароль.";
-                if (errors[0] == null && errors[1] == null)
-                    ViewBag.Complete = "✓ Настройки успешно изменены.";
-                else
-                    ViewBag.GlobalError = "✗ Настройки не изменены.";
-                ViewBag.ErrorsPass = errors;
+                    ModelState.AddModelError("", " Неверно указан текущий пароль.");
             }
             else
                 ViewBag.GlobalError = "✗ Настройки не изменены.";
@@ -151,6 +141,7 @@ namespace Shace.Controllers
             var accInDB = _accManager.GetAccByEmail(User.Identity.Name);
             ViewBag.Account = accInDB;
             _settManager.PrivacyTrueorFalse(settModel.Privacy, accInDB);
+            ViewBag.Complete = "✓ Настройки успешно изменены.";
             return View("Setting");
         }
 
