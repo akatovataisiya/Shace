@@ -36,8 +36,14 @@ namespace Shace.Controllers
         }
 
 
+        [AllowAnonymous]
         public IActionResult Privacy()
         {
+            if (User.Identity.Name != null)
+            {
+                var accountInDb = _accmanager.GetAccByEmail(User.Identity.Name);
+                ViewBag.Account = accountInDb;
+            }
             return View();
         }
 
@@ -75,7 +81,7 @@ namespace Shace.Controllers
                             ViewBag.ErrorMsg = "• Размер фото меньше 450x450";
                             return View();
                         }
-                        else if (file.Width - file.Height > 10)
+                        else if (Math.Abs(file.Width - file.Height) > 10)
                         {
                             ViewBag.ErrorMsg = "• Соотношение сторон сильно отличается. Фото не квадратное";
                             return View();
