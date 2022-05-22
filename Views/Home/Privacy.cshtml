@@ -1,6 +1,237 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+   <meta charset="utf-8">
+   <title>Privacy</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Shace.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @if (User.Identity.Name == null)
+    {
+    Layout = null;
+    <style>
+        body{
+            margin-top:5px;
+            margin-left:150px;
+            }
+        </style>
+    }
+    else
+    {
+        <style>
+        body{
+            margin-top:69px;
+        }
+        </style>
+    }
+    <style>
+        *,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+body {
+    /*margin-top: 69px;*/
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #cce4ff;
+    font-family: sans-serif;
+}
+
+.btnclass {
+    border: 0px;
+    background: #ffffff;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 1px solid darkgrey;
+    padding: 10px 5px;
+    width: 250px;
+    outline: none;
+    color: black;
+    border-radius: 2px;
+    transition: 0.25s;
+    text-decoration-color: white;
+}
+
+    .btnclass:hover {
+        color: white;
+        background: lightgray;
+    }
+
+.tabs { /*рамка 1*/
+    padding: 15px;
+    max-width: 250px;
+    margin-left: 250px;
+    height: 180px;
+    height: 750px;
+    background-color: white;
+    border: 1px solid darkgrey;
+    text-align: center;
+    border-radius: 0px;
+}
+
+    .tabs > input[type="radio"] {
+        display: none;
+    }
+
+        .tabs > input[type="radio"]:checked + label {
+            background-color: lightgray;
+        }
+
+.formstyle { /*block*/
+    margin-left: 53px;
+    margin-top: 99px;
+    padding: 15px;
+    width: 550px;
+    height: 750px;
+    background-color: white;
+    border: 1px solid darkgrey;
+}
+
+.tabs > div {
+    /* скрыть контент по умолчанию */
+    display: none;
+}
+
+/* отобразить контент, связанный с вабранной радиокнопкой (input type="radio") */
+#tab-btn-1:checked ~ #content-1,
+#tab-btn-2:checked ~ #content-2,
+#tab-btn-3:checked ~ #content-3,
+#tab-btn-4:checked ~ #content-4 {
+    display: block;
+    width: 400px;
+    margin: -283px;
+    margin-left: 180px;
+    margin-right: 0px;
+    text-align: left;
+}
+
+.tabs > label {
+    width: 200px; /*ширина кнопки*/
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: white;
+    border: 1px solid grey;
+    /*    border: 1px solid transparent;*/
+    padding: 2px 8px;
+    font-size: 16px;
+    line-height: 1.5;
+    border-radius: 4px;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    margin-left: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+    .tabs > label:hover {
+        color: white;
+        background: lightgray;
+    }
+
+    .tabs > label:first-of-type {
+    }
+  </style>
+
+</head>
+<body>
+    <div class="tabs">
+        <input type="radio" name="tab-btn" id="tab-btn-1" value="" checked>
+        <label for="tab-btn-1">Условия</label>
+        <input type="radio" name="tab-btn" id="tab-btn-2" value="">
+        <label for="tab-btn-2">Политика использования данных</label>
+        <input type="radio" name="tab-btn" id="tab-btn-3" value="">
+        <label for="tab-btn-3">Политика в отношении файлов cookie</label>
+        <div id="content-1">
+            <form asp-action="Privacy" asp-controller="Privacy" asp-anti-forgery="true" class="formstyle">
+                <div class="validation" style="display:block;font-size:16px;margin-left:50px; margin-right:30px; text-align:left; color:deepskyblue" asp-validation-summary="ModelOnly"> </div>
+               <p style="text-align:center">
+                   Добро пожаловать в Shace!
+               </p>
+               <p style="text-align:justify">
+                   Настоящие Условия использования ("Условия") регулируют использование вами Shace (если прямо не указано, что применяются отдельные условия, а не эти) и содержат информацию о Сервисе Shace ("Сервис"), изложенную ниже. Создавая аккаунт Shace или используя Shace, вы принимаете настоящие условия.
+               </p>
+               <p style="text-align:left; font-weight:bold">
+                   Сервис Shace
+               </p>
+               <p style="text-align:justify">
+                    Мы соглашаемся предоставлять вам Сервис Shace. Сервис включает в себя все продукты, функции, технологии и программное обеспечение Shace, которые мы предоставляем для выполнения миссии Shace помогать вам стать ближе к любимым людям и вещам. Сервис включает следующие компоненты:
+                </p>
+                <ul>
+                    <li style="text-align:justify; font-weight:bold">     
+                        Обеспечение доступа к нашему Сервису.
+                        <p style="font-weight:normal; text-align:justify">
+                            Для обеспечения работы нашего глобального Сервиса нам необходимо хранить и передавать данные между нашими системами по всему миру, в том числе за пределами страны вашего проживания. Использование этой глобальной инфраструктуры является необходимой и неотъемлемой предпосылкой предоставления нашего Сервиса. 
+                        </p>
+                    </li>
+                     <li style="text-align:justify; font-weight:bold">     
+                        Создание благоприятной, открытой для всех и безопасной среды.
+                        <p style="font-weight:normal; text-align:justify">
+                           Мы разрабатываем и используем инструменты и предлагаем участникам нашего сообщества ресурсы, помогающие обеспечить в Shace положительное и открытое для всех взаимодействие, в том числе тогда, когда считаем, что они могут нуждаться в помощи.
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <div id="content-2">
+           <form asp-action="Privacy" asp-controller="Privacy" asp-anti-forgery="true" class="formstyle">
+                <div class="validation" style="display:block;font-size:16px;margin-left:50px; margin-right:30px; text-align:left; color:deepskyblue" asp-validation-summary="ModelOnly"> </div>
+                <p style="text-align:center">
+                   Политика использования данных Shace
+               </p>
+               <p style="text-align:justify; font-weight:bold">
+                   Ваши действия, действия других людей и предоставляемая вами и ими информация.
+               </p>
+               <ul>
+                   <li style="text-align:justify; font-weight:bold">     
+                       Предоставляемые вами информация и контент.
+                        <p style="font-weight:normal; text-align:justify">
+                         Мы собираем контент, сообщения и другую информацию, которые вы предоставляете при использовании наших Продуктов, в том числе когда вы регистрируете аккаунт, создаете контент или делитесь им, отправляете сообщения или взаимодействуете с другими людьми. Это может быть информация из предоставляемого вами контента или о нем (такая как метаданные), например место, где было сделано фото, или дата создания файла.
+                    </li>
+               </ul>
+
+               <p style="text-align:justify; font-weight:bold">
+                   Информация с устройств.
+               </p>
+               <p style="text-align:justify">
+                   Мы собираем информацию с используемых вами компьютеров, телефонов и других подключенных к Интернету устройств.
+               </p>
+            </form>
+        </div>
+        <div id="content-3">
+            <form asp-action="Privacy" asp-controller="Privacy" asp-anti-forgery="true" class="formstyle">
+                <div class="validation" style="display:block;font-size:16px;margin-left:50px; margin-right:30px; text-align:left; color:deepskyblue" asp-validation-summary="ModelOnly"> </div>
+                 <p style="text-align:center">
+                   Сведения о файлах cookie
+               </p>
+               <p style="text-align:left; font-weight:bold">
+                  Что такое файлы cookie?
+               </p>
+               <p style="text-align:justify">
+                Файл cookie — это небольшой текстовый файл, содержащий строку символов, которая может размещаться на вашем компьютере или мобильном устройстве и однозначно идентифицирует ваш браузер или устройство. Мы можем использовать такие технологии, как файлы cookie, пиксели и локальные хранилища для доставки, защиты и понимания продуктов, услуг и рекламных объявлений.
+                </p>
+                 <p style="text-align:left; font-weight:bold">
+                  Для чего используются файлы cookie?
+               </p>
+               <p style="text-align:justify">
+               Файлы cookie и другие технологии позволяют сайту или службам узнать, посещали ли вы их раньше со своего компьютера или мобильного устройства. Эти технологии впоследствии могут использоваться для предоставления продуктов, услуг и рекламы, анализа того, как используется сайт или служба, запоминания ваших предпочтений, повышения удобства навигации по страницам и удобства использования наших услуг в целом. Файлы cookie также помогают показывать вам более актуальную и интересную рекламу в сети Интернет.
+                </p>
+                  <p style="text-align:left; font-weight:bold">
+                 Как долго файлы cookie будут храниться на моем устройстве?
+               </p>
+               <p style="text-align:justify">
+               Продолжительность хранения файлов cookie на вашем компьютере или мобильном устройстве зависит от того, является ли файл cookie "постоянным" или "сеансовым". Сеансовые файлы cookie на вашем устройстве до тех пор, пока вы не закроете браузер. Постоянные файлы cookie хранятся на вашем компьютере или мобильном устройстве до истечения их срока действия или удаления.
+               </p>
+             </form>
+        </div>
+    </div>
+</body>
+</html>
+

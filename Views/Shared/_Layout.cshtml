@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Shace</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css"  asp-append-version="true" />
     <link rel="stylesheet" href="~/Shace.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
+    <header class="sticky">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a style="font-family: 'Pacifico', cursive; color: black;" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shace</a>
@@ -17,29 +17,31 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div style="justify-content:right;" class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div style="justify-content:right; " class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul style="justify-content:right" class="navbar-nav flex-grow-1">
                         <li class="nav-item" style="margin-top:5px">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/home.png" width="20" height="20" alt="Index"></a>
                         </li>
                         <li class="nav-item" style="margin-top:5px">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Chat"><img src="~/images/chat.png" width="20" height="20" alt="Chat"></a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ProfilePage" asp-action="Chat"><img src="~/images/chat.png" width="20" height="20" alt="Chat"></a>
                         </li>
                         <li class="nav-item" style="margin-top:5px">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Create"><img src="~/images/add.png" width="20" height="20" alt="Add"></a>
                         </li>
-
                         <li class="nav-item" style="margin-top:5px">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Like"><img src="~/images/like.png" width="20" height="20" alt="Like"></a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Search"><img src="~/images/search.png" width="20" height="20" alt="Search"></a>
                         </li>
-                        <li class="nav-item">
-                            <details class="details-overlay details-reset js-feature-preview-indicator-container" open>
-                                <summary class="nav-link text-dark"><img style="margin-right:3px" src="@Url.Content("~/images/"+@ViewBag.Account.Photo)" width="40" height="40">@ViewBag.Account.ShortName</summary>
-                                @*<details-menu>
-                                    <br><a style="border:1px solid black; width:141px" class="btn" asp-area="" asp-controller="Home" asp-action="MyAcc">Мой профиль</a>
-                                    <br><a style="border:1px solid black; width:141px" class="btn" asp-area="" asp-controller="Home" asp-action="Settings">Настройки</a>
-                                    <br><a style="border:1px solid black; width:141px" class="btn" asp-area="" asp-controller="Account" asp-action="Logout">Выйти из аккаунта</a>
-                                </details-menu>*@
+
+                        <li class="nav-item" style="margin-right:25px;">
+                            <details class="details-overlay details-reset">
+                                <summary class="nav-link text-dark"><img style="margin-right:3px" src="@Url.Content("~/images/Profiles/"+@ViewBag.Account.Photo)" width="40" height="40">@ViewBag.Account.ShortName</summary>
+                                <details-menu>
+                                    <div class="sticky1">
+                                    <br><a class="btn" href="@Url.Action("Profile","ProfilePage",new {id=ViewBag.Account.ShortName})">Мой профиль</a>
+                                    <br><a class="btn" asp-area="" asp-controller="Settings" asp-action="Setting">Настройки</a>
+                                    <br><a class="btn" asp-area="" asp-controller="Account" asp-action="Logout">Выйти из аккаунта</a>
+                                    </div>
+                                </details-menu>
                             </details>
                         </li>
                     </ul>
@@ -53,11 +55,7 @@
         </main>
     </div>
 
-    @*<footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - Shace - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>*@
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

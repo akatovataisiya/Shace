@@ -1,12 +1,15 @@
 ﻿@model IEnumerable<Shace.Storage.Entities.Post>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Feed";
+}
+
+@{
+    int postssaw = 0;
 }
 <head>
     <meta charset="utf-8">
     <title>Home Page</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/style-index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,38 +17,137 @@
     <style>
         body {
             margin: 0px;
-            height: 1290px;
+            height: auto;
             background-position: center;
             background-size: cover;
         }
     </style>
 </head>
 <body>
-<div style="margin-top:350px">
+    <div style="margin-top:550px">
         <div>
             @foreach (var item in Model.Reverse())
             {
-                //if (item.AccountId != ViewBag.Account.Id) //Включено отображение своих публикаций
+                //if (item.PostDate > DateTime.Now.AddDays(-7))  //Отображение публикаций подписчиков за последние 7 дней. Сейчас: выключено
                 {
-                    <br><br> <br>
-                    <div class="Hello">
-                        @foreach (var name in @ViewBag.AllAccs)
+                    bool suber = false;
+                    foreach (var subscribes in ViewBag.Subs)
+                    {
+                        if (subscribes.Account2Id == item.AccountId)
                         {
-                            if (item.AccountId == name.Id)
+                            suber = true;
+                            break;
+                        }
+                    }
+                    @if (suber || ViewBag.Account.Id == item.AccountId)
+                    {
+                        postssaw += 1;
+                        @if (postssaw % 10 == 0)
+                        {
+                            @if(ViewBag.Adds != null)
+                            @if(ViewBag.AddsCount >= (postssaw/10))
                             {
-                                <img style="float:left; margin-left:10px" src="@Url.Content("~/images/"+@name.Photo)" width="40" height="40">
-                                <a style="margin-top:7px; margin-left:3px; float:left">@Html.Raw(name.ShortName)</a>
-                                <br><br><br>
-                                break;
+                                    int addcount = 0;
+                                    @foreach (var adv in ViewBag.Adds) 
+                                    {
+                                        addcount += 1;
+                                        if (postssaw / 10 != addcount)
+                                            continue;
+                                        <div class="Hello" style="display:block; margin-top:200px; height: auto">
+
+                                            @foreach (var name in ViewBag.AllAccs)
+                                            {
+                                                if (adv.AccountId == name.Id)
+                                                {
+                                                    <img style="float:left; margin-left:10px" src="@Url.Content("~/images/Profiles/"+@name.Photo)" width="40" height="40">
+                                                    <a style="color:black; text-decoration:none; margin-top:7px; margin-left:3px; float:left" href='@Url.Action("Profile","ProfilePage",new {id=name.ShortName})'>@Html.Raw(name.ShortName)</a>
+                                                    <br><br>
+                                                    <p style="float:left; margin-top:10px; margin-right:5px; color:lightgray; font-size:20px">Рекламная запись</p>
+                                                    break;
+
+                                                }
+                                            }
+                                        <br>
+                                        <p style="margin-top:10px"><img width="600" height="600" src="@Url.Content("~/images/UAds/"+@adv.Url)"></p>
+                                        <ul class="navbar-nav flex-grow-1">
+                                            <li class="navbar-item">
+                                                <a style="margin-top:10px; float:left; margin-left:10px">@Html.Raw(adv.Description)</a>
+                                            </li>
+                                            <li>
+                                                <br>
+                                                <a class="btn" style="border: 1px solid darkgrey; color:black; text-decoration:none; margin-top:10px; position:center;  margin-bottom:10px" href="@adv.UrlTo">Перейти по ссылке</a>
+                                            </li>
+                                        </ul>
+                                        </div>
+                                    }
                             }
                         }
-                        
-                        <p><img width="600" height="600" src="@Url.Content("~/images/"+item.Photo)"></p>
-                        <p style="margin-top:10px; float:left; margin-left:10px">@Html.Raw(item.Description)</p><br>
-                        <p style="margin-top:30px; float:right">@Html.Raw(item.PostDate)</p><br>
-                    </div>
+                        <div class="Hello" style="display:block; margin-top:200px; height: auto">
+
+                            @foreach (var name in ViewBag.AllAccs)
+                            {
+                                if (item.AccountId == name.Id)
+                                {
+                                    <img style="float:left; margin-left:10px" src="@Url.Content("~/images/Profiles/"+@name.Photo)" width="40" height="40">
+                                    <a style="color:black; text-decoration:none; margin-top:7px; margin-left:3px; float:left" href='@Url.Action("Profile","ProfilePage",new {id=name.ShortName})'>@Html.Raw(name.ShortName)</a>
+                                    <br>
+                                    if (item.Location != null)
+                                    {
+                                        <br>
+                                        <a style="float:left; margin-top:10px; margin-right:5px; margin-left:10px"><img src="~/images/point.png" width="16" height="16" style="margin-right:5px">@Html.Raw(item.Location)</a>
+                                    }
+                                    <br>
+                                    break;
+                                }
+                            }
+                            <br>
+                            <p style="margin-top:10px"><img width="600" height="600" src="@Url.Content("~/images/Posts/"+item.Photo)"></p>
+                            <p style="margin-top:10px; float:left; margin-left:10px">@Html.Raw(item.Description)</p><br><br>
+                            <form asp-action="Liked" asp-controller="Home">
+                                    <p><input id="Postid" name="postid" value="@item.Id" type="hidden">
+                                    <input name="accountid" value="@ViewBag.Account.Id" type="hidden"></p>
+                                @{bool ifliked = false;}
+                                @foreach (var like in ViewBag.Likes)
+                                {
+                                    @if (like.PostId == item.Id && like.AccountId == ViewBag.Account.Id)
+                                    {
+                                        ifliked=true;
+                                    }
+                                }
+                                @if(ifliked)
+                                {<button style="margin-top:7px; float:left; border:none; background-color:white" type="submit"><img src="~/images/redlike.png" width="20" height="20" alt="Like" style="margin-right:5px">@item.LikeCounter</button>}
+                                else
+                                {<button style="margin-top:7px; float:left; border:none; background-color:white" type="submit"><img src="~/images/like.png" width="20" height="20" alt="Like" style="margin-right:5px">@item.LikeCounter</button>}
+                            </form>
+                            <p><form asp-action="Commented" asp-controller="Home">
+                            <p><input id="Postid" name="postid" value="@item.Id" type="hidden">
+                            <input name="accountid" value="@ViewBag.Account.Id" type="hidden"></p>
+                            <details class="details-overlay details-reset" closed>
+                                <p><summary class="nav-link text-dark" style="float:left"><img src="~/images/chat.png" width="20" height="20" alt="Comment"> @item.CommentCounter</summary></p>
+                                <details-menu>
+                                                <p style="float:left; margin-top:7px; margin-left:5px"><input style="width:300px; border: 1px solid darkgrey; border-radius: 2px;" name="text" placeholder="Введите ваш комментарий"/></p>
+                                                <p style="float:left; margin-top:7px"><button  class="btnclass" type="submit">Отправить</button></p>
+                                </details-menu>
+                            </details>
+                            </form></p>
+                            @if(item.CommentCounter!=0)
+                            {
+                                <br><p style="margin-top:15px"><a style="color:black; text-decoration:none; margin-top:7px; margin-left:3px; float:left" href='@Url.Action("Comments","Home",new {postid=item.Id})'> Просмотреть все комментарии</a></p>
+                            }
+                            <p id="@item.Id" style="margin-top:20px; float:right; margin-bottom:10px">@Html.Raw(item.PostDate.ToShortDateString())</p><br>
+                        </div>
+                    }
                 }
             }
+</div>
+        @if(postssaw == 0)
+        {
+        <div class="Hello" style="margin-top:-200px;">
+            <p style="text-align:center;">Публикаций пока нет. Подпишитесь на своих друзей, чтобы видеть их активность</p>
         </div>
+        }
+        </div>
+<div style=" position: absolute; bottom: 0; right: 0;"class="container">
+            &copy; 2022 - Shace - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
 </div>
 </body>

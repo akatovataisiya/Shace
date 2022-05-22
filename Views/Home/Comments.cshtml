@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Shace.Storage.Entities.Comment>
+
+@{
+    ViewData["Title"] = "Comments";
+}
+<head>
+    <meta charset="utf-8">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/style-index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0px;
+            height: auto;
+            background-position: center;
+            background-size: cover;
+            background-color:white;
+            font-family: sans-serif;
+        }
+
+         .butnclass {
+            display: block;
+            text-align: center;
+            border: 1px solid darkgrey;
+            padding: 10px 5px;
+            width: 200px;
+            color: black;
+            border-radius: 2px;
+            transition: 0.25s;
+            text-decoration-color: white;
+        }
+
+         .butnclass:hover {
+            color: white;
+            background: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <div style="margin-top:100px">
+        <button class="butnclass"  style="margin-bottom:50px; margin-left:43%;" onclick="history.back()">Вернуться назад</button>
+        <ul class="navbar-nav flex-grow-1">
+            <li class="navbar-item">
+                <img style="float:left; margin-left:10px;" src="@Url.Content("~/images/Profiles/"+@ViewBag.PostOwner.Photo)" width="40" height="40">
+                <a style="margin-top:7px; margin-left:3px; color:black; text-decoration:none; float:left" href='@Url.Action("Profile","ProfilePage",new {id=ViewBag.PostOwner.ShortName})'>@ViewBag.PostOwner.ShortName</a>
+            </li>
+            <li class="navbar-item">
+                <p style="float:left; margin-top:15px">@ViewBag.PostDescr</p>
+            </li>
+            <li class="navbar-item">
+                <p style="float:right">Автор публикации</p>
+            </li>
+        </ul>
+        <hr style="margin-bottom:25px"/>
+        @foreach(var comm in Model)
+        {
+            @foreach (var  acc in ViewBag.AllAccs)
+            {
+                if (acc.Id == comm.AccountId)
+                {
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="navbar-item">
+                            <img style="float:left; margin-left:10px" src="@Url.Content("~/images/Profiles/"+@acc.Photo)" width="40" height="40">
+                            <a style="margin-top:7px; margin-left:3px; color:black; text-decoration:none; float:left" href='@Url.Action("Profile","ProfilePage",new {id=acc.ShortName})'>@acc.ShortName</a>
+                        </li>
+                        <li class="navbar-item">
+                            <p style="float:left; margin-top:15px">@comm.Text</p>
+                            <p style="float:right">@comm.CommentDate.ToShortDateString()</p>
+                        </li>
+                    </ul>
+                    <hr style="margin-bottom:25px"/>
+                    break;
+                }
+            }
+        }
+    </div>
+    <div style=" position: absolute; bottom: 0; right: 0;"class="container">
+            &copy; 2022 - Shace - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </div>
+</body>

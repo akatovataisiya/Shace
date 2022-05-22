@@ -1,0 +1,127 @@
+﻿<head>
+     <meta charset="utf-8">
+    <title>Profile</title>
+    <style>
+    body {
+        background-color: white;
+        font-family: sans-serif;
+     }
+    .btnclass {
+    text-align: center;
+    border: 1px solid darkgrey;
+    padding: 1px 5px;
+    color: black;
+    border-radius: 2px;
+    text-decoration-color: white;
+}
+
+    .btnclass:hover {
+        color: white;
+        background: lightgray;
+    }
+     
+    </style>
+</head>
+
+<body style="margin-top:100px; ">
+    <div class="headprofile" style="display:block;">
+        <ul class="navbar-nav flex-grow-1">   
+            <li class="navbar-item">
+                <img style="float:left" src="@Url.Content("~/images/Profiles/"+@ViewBag.Profile.Photo)" width="100" height="100">
+                <p style="font-size:30px; margin-left:150px">@ViewBag.Profile.ShortName</p>
+            @if (ViewBag.Profile.ShortName != ViewBag.Account.ShortName)
+            {
+                <p><form asp-action="Chat" asp-controller="ProfilePage" method="get">
+                    <input name="id" value="@ViewBag.Profile.ShortName" type="hidden">
+                    <button class="btnclass" style="float:left; margin-left:50px">Написать сообщение</button>
+                    <a>   </a>
+                </form></p>
+                @if (ViewBag.Subscription == null)
+                {
+                    <p><form asp-action="Subscriptions" asp-controller="ProfilePage">
+                        <input name="snProf" value="@ViewBag.Profile.ShortName" type="hidden">
+                        <button class="btnclass" style="margin-left:10px;">Подписаться</button>
+                    </form></p>
+                }
+                else
+                {
+                   <p><form asp-action="Subscriptions" asp-controller="ProfilePage">
+                        <input name="snProf" value="@ViewBag.Profile.ShortName" type="hidden">
+                        <button  class="btnclass" style="margin-left:10px;">Отписаться</button>
+                    </form></p>
+                }
+            }
+            else
+            {
+                    <p ><form asp-action="Create" asp-controller="ProfilePage" method="get">
+                        <button  class="btnclass"  style="margin-left:50px; width:280px">Опубликовать рекламную запись</button>
+                    </form></p>
+            }
+            </li>
+            <li class="navbar-item" style="margin-left:150px">
+                <label for="images">Фото:</label>
+                <span id="images"> @ViewBag.Posts.Count</span>
+                <label for="subscibers" style="margin-left:10px">Подписчики:</label>
+                <span id="subscibers"> @ViewBag.Profile.SubscibersCounter</span>
+                <label for="subscriptions" style="margin-left:10px">Подписки:</label>
+                <span id="subscriptions"> @ViewBag.Profile.SubscriptionsCounter</span>
+            </li>
+            <li class="navbar-item" style="margin-left:150px;">
+                <p style="display:block; max-width:400px; margin-top:5px; margin-bottom:10px;">@ViewBag.Profile.Description</p>
+            </li>
+            @if (ViewBag.Profile.BDay != null && ViewBag.Profile.BDay.Month == DateTime.Now.Month && ViewBag.Profile.BDay.Day == DateTime.Now.Day)
+            {
+                <li class="navbar-item">
+                    <p style="text-align:center; margin-top:25px;"><img src="@Url.Content("~/images/bday.png")" width="50" height="50">
+                    <p style="text-align:center; margin-bottom:25px">У @ViewBag.Profile.ShortName сегодня день рождения! Не забудьте его(её) поздравить</p></p>
+                </li>
+            }
+        </ul>
+    </div>
+    <div style="display:block;">
+        <p style="font-size:20px; margin-top:25px; margin-bottom:3px;">Публикации @ViewBag.Profile.ShortName:</p>
+        <hr style="margin-top:0px;" />
+    </div>
+    <div style="margin-left:30px;" class="posts">
+        @if (ViewBag.Subscription == null && ViewBag.Profile.Privacy == true && ViewBag.Profile.Id != ViewBag.Account.Id)
+        {
+            <ul class="navbar-nav flex-grow-1">
+                <li class="navbar-item">
+                    <p style="margin-top:100px; text-align:center"><img src="@Url.Content("~/images/lock.png")" width="45" height="50"></p>
+                </li>
+                <li class="navbar-item">
+                    <p style="text-align:center">Публикации скрыты. Закрытый аккаунт</p>
+                </li>
+            </ul>
+        }
+        else
+        {
+            @if (ViewBag.Posts.Count != 0)
+            {
+            foreach (var item in ViewBag.Posts)
+            {
+                if (item.AccountId == ViewBag.Profile.Id)
+                {
+                    <div style="float:left; margin:5px;">
+                        <a href='@Url.Action("Post","ProfilePage",new {id=item.Id})'><img width="400" height="400" src="@Url.Content("~/images/Posts/"+item.Photo)"></a>
+                    </div>
+                }
+            }
+            }
+            else
+            { 
+                <ul class="navbar-nav flex-grow-1">
+                <li class="navbar-item">
+                    <p style="margin-top:100px; text-align:center"><img src="@Url.Content("~/images/photo.png")" width="90" height="50"></p>
+                </li>
+                <li class="navbar-item">
+                    <p style="text-align:center">Публикаций пока нет</p>
+                </li>
+                </ul>
+            }
+        }
+    </div>
+     <div style=" position: absolute; bottom: 0; right: 0;"class="container">
+            &copy; 2022 - Shace - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+     </div>
+</body>
