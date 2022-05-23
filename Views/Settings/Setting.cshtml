@@ -72,7 +72,7 @@
                 </div>
                  <div style="margin-bottom: 40px; display:block;" class="form-group">
                     <span style="font-weight:bold;">О себе:</span>
-                    <textarea id="Description" style="float: right; resize: none; width:202px" asp-for="Description" placeholder="@ViewBag.Account.Description"></textarea>
+                    <textarea id="Description" style="float: right; resize: none; width:202px" name="@Html.NameFor(m => m.Description)">@ViewBag.Account.Description</textarea>
                 </div>
                 <div style="margin-bottom: 40px; display:block;">
                     <input style="float: right;" type="submit" value="Отправить" class="btnclass">
