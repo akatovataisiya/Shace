@@ -140,11 +140,17 @@
                 }
             }
 </div>
-        @if(postssaw == 0)
+        @if(postssaw == 0 && ViewBag.Account.SubscriptionsCounter==0)
         {
         <div class="Hello" style="margin-top:-200px;">
             <p style="text-align:center;">Публикаций пока нет. Подпишитесь на своих друзей, чтобы видеть их активность</p>
-        </div>
+            </div>
+        }
+        else if (postssaw == 0 && ViewBag.Account.SubscriptionsCounter>0)
+        {
+            <div class="Hello" style="margin-top:-200px;">
+            <p style="text-align:center;">Увы, никакой активности ваших подписок за последние 7 дней не обнаружено</p>
+            </div>
         }
         </div>
 <div style=" position: absolute; bottom: 0; right: 0;"class="container">

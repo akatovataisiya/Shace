@@ -18,6 +18,16 @@ namespace Shace.Logic.Posts
         public void DeletePost(int postid)
         {
             var post = _context.Posts.FirstOrDefault(p=> p.Id==postid);
+            var liker = _context.Likes.Where(l=> l.PostId==postid).ToList();
+            var commenter = _context.Comments.Where(c => c.PostId == postid).ToList();
+            foreach (var deleter in liker)
+            { 
+                _context.Likes.Remove(deleter); 
+            }
+            foreach (var deleter in commenter)
+            {
+                _context.Comments.Remove(deleter);
+            }
             _context.Posts.Remove(post);
             _context.SaveChanges();
         }
